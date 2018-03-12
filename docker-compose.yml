@@ -1,0 +1,9 @@
+models:
+    image: tp33/django
+    external_links:
+      -  mysql:db
+    volumes:
+      - ./:/app
+    ports:
+      - "8001:8000"
+    command: bash -c "./manage.py makemigrations api; python manage.py makemigrations; python manage.py migrate; python manage.py loaddata db.json; mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/bakery/wsgi.py"
