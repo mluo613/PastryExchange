@@ -110,3 +110,12 @@ def delete_item(request, username):
             return JsonResponse("Item successfully deleted", safe=False)
         except:
             return JsonResponse("User or Item does not exist. Delete failed.", safe=False)
+
+def get_all_items(request):
+    if request.method == "GET":
+        try:
+            itemsList = Item.objects.all()
+            results = [ob.as_json() for ob in itemsList]
+            return JsonResponse(json.dumps(results), content_type="application/json", safe=False)
+        except:
+            return JsonResponse("No items in database.")

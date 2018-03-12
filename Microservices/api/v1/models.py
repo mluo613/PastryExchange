@@ -24,6 +24,12 @@ class Item(models.Model):
     datePosted = models.DateTimeField(default=timezone.now())
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def as_json(self):
+        return dict(name = self.name,
+                    price = str(self.price),
+                    datePosted = self.datePosted.isoformat(),
+                    seller = self.seller.username)
+
     def __str__(self):
         return self.name
 

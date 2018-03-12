@@ -14,5 +14,7 @@ urlpatterns = [
 
     url(r'^users/(?P<username>[-\w]+)', views.getUpdate_user, name='getUpdate_user'),
     #    url(r'^items/(?P<item_name>[-\w]+)', views.getUpdate_item, name='getUpdate_item'),
+    url(r'^getallitems', views.get_all_items, name='get_all_items'),
+
     url(r'^$', views.index, name='index'),
 ]
