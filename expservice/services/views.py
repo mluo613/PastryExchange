@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from bakery.models import User, Item, Review
+#from bakery.models import User, Item
 
 # Create your views here.
 
@@ -8,60 +8,27 @@ import urllib.request
 import urllib.parse
 import json
 
-from bakery.models import User, Item
+# home page
+def latestUsers(request):
 
-def get_user(username):
-    resp = views.getUpdate_user('GET', username)
-    print (resp)
-    return resp
+def latestItems(request):
 
-def update_user(username):
-    resp = bakery.views.getUpdate_user('POST', username)
-    print (resp)
-    return resp
+# item details
+def userDetails(request, username):
+    name = str(username)
+    url = 'http://localhost:8001/api/v1/users/' + name + '/'
+    with urllib.request.urlopen(url) as response:
+        json = response.read()
+    encoding = json.info().get_content_charset('utf-8')
+    JSON_object = json.loads(data.decode(encoding))
+    return JSON_object
 
-def get_item(item_name, username):
-    resp = getUpdate_item('GET', item_name, username)
-    print (resp)
-    return resp
-
-def update_item(item_name, username):
-    resp = getUpdate_item('POST', item_name, username)
-    print (resp)
-    return (resp)
-
-def create_user():
-    resp = create_user('POST')
-    return resp
-
-def delete_user(username):
-    resp = delete_user('POST', username)
-    return resp
-
-
-"""
-def users_all(request):
-    try:
-        users = User.objects.all()
-        return JsonResponse(users, safe=False)
-    except:
-        return JsonResponse("Something went wrong!", safe=False)
-
-def getUserItems(request, username):
-    try:
-        name = str(username)
-        user = User.objects.get(username=name)
-        items = User.objects.filter(seller=user)
-        return JsonResponse(items, safe=False)
-    except:
-        return JsonResponse("Error!", safe=False)
-    
-
-def items_all(request):
-    try:
-        items = Item.objects.all()
-        return JsonResponse(items, safe=False)
-    except:
-        return JsonResponse("Something went wrong!", safe=False)
-
-"""
+def itemDetails(request, item_name, username):
+    item_name = str(item_name)
+    name = str(username)
+    url = 'http://localhost:8001/api/v1/users/' + name + '/' + item_name + '/'
+    with urllib.request.urlopen(url) as response:
+        json = response.read()
+    encoding = json.info().get_content_charset('utf-8')
+    JSON_object = json.loads(data.decode(encoding))
+    return JSON_object
