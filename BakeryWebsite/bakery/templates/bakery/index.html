@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Home</h1>
+
+  <p>Welcome to <em>Bakery</em>, a website for UVA students to sell and buy baked goods from each other.</p>
+
+<h2>Recently Added Baked Goods</h2>
+
+  {% if bakeryItem_list %}
+  <ul>
+
+    {% for bakeryItem in bakeryItem_list %}
+    <li>
+      <a href="{{ bakeryItem.get_absolute_url }}">{{ bakeryItem.name }}</a> ({{bakeryItem.seller}})
+    </li>
+    {% endfor %}
+
+  </ul>
+  {% else %}
+    <p>There are no baked goods currently for sale in the bakery.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Name: {{ bakeryItem.name }}</h1>
+
+  <!-- <p><strong>Seller:</strong> <a href="">{{ bakeryItem.seller }}</a></p> --> <!-- author detail link not yet defined --> 
+  <p><strong>Seller:</strong> {{ bakeryItem.seller }}</p>
+  <p><strong>Price:</strong> {{ bakeryItem.price }}</p>
+
+{% endblock %}
