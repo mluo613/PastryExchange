@@ -3,7 +3,27 @@ models:
     external_links:
       -  mysql:db
     volumes:
-      - ./:/app
+      - ./Microservices:/app
     ports:
       - "8001:8000"
-    command: bash -c "./manage.py makemigrations api; python manage.py makemigrations; python manage.py migrate; python manage.py loaddata db.json; mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/bakery/wsgi.py"
+    command: bash -c "/app/manage.py makemigrations api; python /app/manage.py makemigrations; python /app/manage.py migrate; python /app/manage.py loaddata /app/db.json; mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/bakery/wsgi.py"
+
+exp:
+   image: tp33/django
+   links:
+      - models:models-api
+   ports:
+      - "8002:8000"
+   volumes:
+      - ./expservice:/app
+   command: bash -c "/app/manage.py makemigrations api; python /app/manage.py makemigrations; python /app/manage.py migrate; mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/services/wsgi.py"
+
+web:
+   image: tp33/django
+   links:
+      - exp:exp-api
+   ports:
+      - "8000:8000"
+   volumes:
+      - ./BakeryWebsite:/app
+   command: bash -c "/app/manage.py makemigrations api; python /app/manage.py makemigrations; python /app/manage.py migrate; mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/bakery/wsgi.py"

@@ -5,9 +5,8 @@
 
   <p>Welcome to <em>Bakery</em>, a website for UVA students to sell and buy baked goods from each other.</p>
 
-<h2>New Baked Goods</h2>
+<h2>Recently Added Baked Goods</h2>
 
-  <p>The following bakery items were recently added:</p>
   {% if bakeryItem_list %}
   <ul>
 

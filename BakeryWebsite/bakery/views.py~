@@ -5,8 +5,8 @@ from django.views import generic
 def index(request):
     return render(request, 'bakery/index.html')
 
-class bakeryItemLListView(generic.ListView):
-    model = bakeryItem
+#class bakeryItemListView(generic.ListView):
+ #   model = bakeryItem
 
-class bakeryItemDetailView(generic.DetailView):
-    model = bakeryItem
+#class bakeryItemDetailView(generic.DetailView):
+ #   model = bakeryItem
