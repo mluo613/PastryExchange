@@ -12,7 +12,7 @@
 
     {% for bakeryItem in bakeryItem_list %}
     <li>
-      <a href="{{ bakeryItem.get_absolute_url }}">{{ bakeryItem.name }}</a> ({{bakeryItem.seller}})
+      <a href="{{ bakeryItem.get_absolute_url}} bakeryItem/{{ bakeryItem.item_id }} " >{{ bakeryItem.name }}</a> ({{bakeryItem.seller}})
     </li>
     {% endfor %}
 

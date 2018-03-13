@@ -23,7 +23,7 @@ def bakeryItemDetails(request, pk):
             return HttpResponse("Item does not exist.")
         
         context = {
-            'bakeryItem' : resp_json,
+            'bakeryItem' : resp,
             }
         return render(request, 'bakery/bakeryItem_detail.html', context)
     except:
