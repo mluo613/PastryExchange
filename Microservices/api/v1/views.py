@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 from api.v1.models import User, Item
+import json
 
 # Create your views here.
 def index(request):
@@ -50,12 +51,12 @@ def delete_user(request, username):
             return JsonResponse("Cannot delete user because user does not exist.", safe=False)
 
 # These are the functions for model Item
-def getUpdate_item(request, item_name, username):
+def get_item(request, item_id):
     if request.method == 'GET':
         try:
-            user = User.objects.get(username=username)
-            item = Item.objects.get(name=item_name, seller=user)
-            return JsonResponse({"Name":item.name,
+            item = Item.objects.get(pk=item_id)
+            return JsonResponse({
+                            "Name":item.name,
                              "Price": item.price,
                              "Date Posted: ": item.datePosted,
                              "Seller": str(item.seller),
@@ -65,9 +66,19 @@ def getUpdate_item(request, item_name, username):
         except:
             return JsonResponse("Item does not exist.", safe=False)
 
-    elif request.method == 'POST':
+
+'''
+        return JsonResponse({"Name":item.name,
+                             "Price": item.price,
+                             "Date Posted: ": item.datePosted,
+                             "Seller": str(item.seller),
+                             },
+                            safe=False)
+'''
+def update_item(request, username, item_id):
+    if request.method == 'POST':
         try:
-            item = Item.objects.get(name=item_name)
+            item = Item.objects.get(pk=item_id)
             if (item.seller.username == username):
                 item.price = request.POST.get('price')
                 item.save()
@@ -78,14 +89,6 @@ def getUpdate_item(request, item_name, username):
         except:
             return JsonResponse("Item not found.", safe=False)
 
-'''
-        return JsonResponse({"Name":item.name,
-                             "Price": item.price,
-                             "Date Posted: ": item.datePosted,
-                             "Seller": str(item.seller),
-                             },
-                            safe=False)
-'''
 def upload_item(request, username):
 
     if request.method == 'POST':
@@ -116,6 +119,6 @@ def get_all_items(request):
         try:
             itemsList = Item.objects.all()
             results = [ob.as_json() for ob in itemsList]
-            return JsonResponse(json.dumps(results), content_type="application/json", safe=False)
+            return JsonResponse(json.JSONDecoder().decode(json.dumps(results)), content_type="application/json", safe=False)
         except:
-            return JsonResponse("No items in database.")
+            return JsonResponse("No items in database.", safe=False)
