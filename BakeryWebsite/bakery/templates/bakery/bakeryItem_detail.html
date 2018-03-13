@@ -1,10 +1,11 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Name: {{ bakeryItem.Name }}</h1> 
+{% for b in bakeryItem %}
+  <h1>Name: {{ b.name }}</h1> 
 
 <!--  <p><strong>Seller:</strong> <a href="">{{ bakeryItem.seller }}</a></p> --> <!-- author detail link not yet defined --> 
-  <p><strong>Seller:</strong> {{ bakeryItem.Seller }}</p>
-  <p><strong>Price:</strong> {{ bakeryItem.Price }}</p>
+  <p><strong>Seller:</strong> {{ b.seller }}</p>
+  <p><strong>Price:</strong> {{ b.price }}</p>
 
 {% endblock %}

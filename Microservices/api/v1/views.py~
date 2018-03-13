@@ -56,7 +56,6 @@ def get_item(request, item_id):
         try:
             item = Item.objects.get(pk=item_id)
             return JsonResponse({
-                    "Item_id":item_id,
                             "Name":item.name,
                              "Price": item.price,
                              "Date Posted: ": item.datePosted,
