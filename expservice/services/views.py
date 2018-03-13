@@ -20,7 +20,7 @@ def latestItems(request):
             JSON_object = json.loads(data.decode(encoding))
             newList = JSON_object[-5:]
             newJSON_object = json.loads(newList)
-            return newJSON_object
+            return JsonResponse(newJSON_object, safe=False)
     except:
         return JsonResponse("Something went wrong!", safe=False)
 
