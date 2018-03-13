@@ -12,21 +12,18 @@ import json
 #def latestUsers(request):
 
 def latestItems(request):
-    url = 'http://models-api:8000/api/v1/getallitems'
-    with urllib.request.urlopen(url) as response:
-        json = response.read()
+    try:
+        url = 'http://models-api:8000/api/v1/getallitems'
+        with urllib.request.urlopen(url) as response:
+            json = response.read()
 
-    newList = json[-5:]
-    encoding = newList.info().get_content_charset('utf-8')
-    JSON_object = json.loads(data.decode(encoding))
-    return JSON_object
-"""
-    encoding = json.info().get_content_charset('utf-8')
-    JSON_object = json.loads(data.decode(encoding))
-    newList = JSON_object[-5:]
-    newJSON_object = json.loads(newList)
-"""
-   # return newJSON_object
+            encoding = json.info().get_content_charset('utf-8')
+            JSON_object = json.loads(data.decode(encoding))
+            newList = JSON_object[-5:]
+            newJSON_object = json.loads(newList)
+            return newJSON_object
+    except:
+        return JsonResponse("Something went wrong!", safe=False)
 
 # item details
 """
@@ -40,10 +37,14 @@ def userDetails(request, username):
     return JSON_object
 """
 def itemDetails(request, pk):
-    key = str(pk)
-    url = 'http://models-api:8000/api/v1/items/' + key + '/'
-    with urllib.request.urlopen(url) as response:
-        json = response.read()
-    encoding = json.info().get_content_charset('utf-8')
-    JSON_object = json.loads(data.decode(encoding))
-    return JSON_object
+    if request.method == 'GET':
+        try:
+            key = str(pk)
+            url = 'http://models-api:8000/api/v1/items/' + key + '/'
+            with urllib.request.urlopen(url) as response:
+                json = response.read()
+            encoding = json.info().get_content_charset('utf-8')
+            JSON_object = json.loads(data.decode(encoding))
+            return JSON_object
+        except:
+            return JsonResponse("Something went wrong.", safe=False)
