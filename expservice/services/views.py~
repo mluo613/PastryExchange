@@ -12,7 +12,7 @@ import json
 #def latestUsers(request):
 
 def latestItems(request):
-    url = 'http://models-api:8000/api/v1/getallitems'
+    url = 'http://models-api/api/v1/getallitems'
     with urllib.request.urlopen(url) as response:
         json = response.read()
 
@@ -41,7 +41,7 @@ def userDetails(request, username):
 """
 def itemDetails(request, pk):
     key = str(pk)
-    url = 'http://models-api:8000/api/v1/items/' + key + '/'
+    url = 'http://models-api/api/v1/items/' + key + '/'
     with urllib.request.urlopen(url) as response:
         json = response.read()
     encoding = json.info().get_content_charset('utf-8')
