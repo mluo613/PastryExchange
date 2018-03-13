@@ -12,12 +12,11 @@ def home(request):
     return HttpResponse("This is the home page!")
 
 # These are the functions for the model User
-
 def getUpdate_user(request, username):
     if request.method == 'GET':
         try:
-            name = str(username)
-            user = User.objects.get(username=name)
+            user = User.objects.get(username=username)
+            user = User.objects.get(username=username)
             return JsonResponse({"Password":user.password, "Username: ": user.username}, safe=False)
         except:
             return JsonResponse("User does not exist.", safe=False)

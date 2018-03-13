@@ -72,7 +72,7 @@ class DeleteUserAccountTest(TestCase):
                                                   'password': 'TestPassword'})
         response = self.client.post('/api/v1/users/TestNewUser/delete')
         self.assertContains(response, 'User deleted')
-        print(response)
+        #print(response)
         response2 = self.client.get('/api/v1/users/TestNewUser')
         #print(response2)
         self.assertContains(response2, 'User does not exist.')
@@ -126,7 +126,7 @@ class UpdateItemTestCase(TestCase):
 
         self.client.post('/api/v1/users/TestNewUser/uploadItem', {'name': 'cake',
                                                                   'price': '2.34'})
-        response = self.client.post('/api/v1/users/TestNewUser/cake', {'name': 'cake',
+        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/1', {'name': 'cake',
                                                                 'price': '3.42'})
 
         self.assertContains(response, 'Item price updated.')
@@ -135,7 +135,7 @@ class UpdateItemTestCase(TestCase):
         '''Tests that update price fails when item does not exist'''
         self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
-        response = self.client.post('/api/v1/users/TestNewUser/cake', {'name': 'cake',
+        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/1', {'name': 'cake',
                                                                        'price': '3.42'})
 
         self.assertContains(response, 'Item not found')
