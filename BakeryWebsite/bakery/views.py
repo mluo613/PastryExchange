@@ -8,8 +8,18 @@ from django.http import HttpResponse
 def bakeryItemDetails(request, pk):
     try:
         req = urllib.request.Request('http://exp-api:8000/bakeryItem/' + str(pk) + '/')
-        resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+        #resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+        r1 = urllib.request.urlopen(req)
+        return HttpResponse("Page.")
+        r2 = r1.read()
+        return HttpResponse("Page2.")
+        r3 = r2.decode('utf-8')
+        return HttpResponse("Page3.")
         resp = json.loads(resp_json)
+        return HttpResponse("Page2.")
+        if resp == "Something went wrong!" or resp == "Item does not exist.":
+            return HttpResponse("Item does not exist.")
+        
         context = {
             'bakeryItem': resp,
             }
@@ -22,7 +32,7 @@ def index(request):
         req = urllib.request.Request('http://exp-api:8000/latestItems/')
         resp_json = urllib.request.urlopen(req).read().decode('utf-8')
         resp = json.loads(resp_json)
-        if resp == "Something went wrong!":
+        #if resp == "Something went wrong!" or resp == "Item does not exist.":
             
         context = {
             'bakeryItem_list': resp,

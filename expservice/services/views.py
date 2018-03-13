@@ -35,13 +35,16 @@ def itemDetails(request, pk):
             resp_json = urllib.request.urlopen(req).read().decode('utf-8')
             resp = json.loads(resp_json)
             return resp
-"""
-            
-            with urllib.request.urlopen(url) as response:
-                json = response.read()
-            encoding = json.info().get_content_charset('utf-8')
-            JSON_object = json.loads(data.decode(encoding))
-            return JSON_object
-"""
+
         except:
             return JsonResponse("Something went wrong.", safe=False)
+
+
+"""                                                                                                                                                                   
+                                                                                                                                                                      
+            with urllib.request.urlopen(url) as response:                                                                                                             
+                json = response.read()                                                                                                                                
+            encoding = json.info().get_content_charset('utf-8')                                                                                                       
+            JSON_object = json.loads(data.decode(encoding))                                                                                                           
+            return JSON_object                                                                                                                                        
+"""
