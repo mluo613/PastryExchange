@@ -20,5 +20,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^users/(?P<username>[-\w]+)/details',views.userDetails, name='userDetails'),
+    url(r'^latestItems/', views.latestItems, name='latestItems'
     url(r'^bakeryItem/(?P<pk>\d+)/', views.itemDetails, name='itemDetails'),
 ]

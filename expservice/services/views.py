@@ -9,9 +9,24 @@ import urllib.parse
 import json
 
 # home page
-def latestUsers(request):
+#def latestUsers(request):
 
 def latestItems(request):
+    url = 'http://models-api/api/v1/getallitems'
+    with urllib.request.urlopen(url) as response:
+        json = response.read()
+
+    newList = json[-5:]
+    encoding = newList.info().get_content_charset('utf-8')
+    JSON_object = json.loads(data.decode(encoding))
+    return JSON_object
+"""
+    encoding = json.info().get_content_charset('utf-8')
+    JSON_object = json.loads(data.decode(encoding))
+    newList = JSON_object[-5:]
+    newJSON_object = json.loads(newList)
+"""
+   # return newJSON_object
 
 # item details
 """
