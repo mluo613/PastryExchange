@@ -25,7 +25,8 @@ class Item(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def as_json(self):
-        return dict(name = self.name,
+        return dict(item_id=str(self.pk),
+                    name = self.name,
                     price = str(self.price),
                     datePosted = self.datePosted.isoformat(),
                     seller = self.seller.username)
