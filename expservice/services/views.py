@@ -41,9 +41,10 @@ def itemDetails(request, pk):
             #with urllib.request.urlopen(url) as response:
              #   json = response.read()
             #encoding = json.info().get_content_charset('utf-8') 
-            #JSON_object = json.loads(data.decode(encoding))                                                                                                                                                         
+            #JSON_object = json.loads(data.decode(encoding))                                                                                            
+            r2 = json.JSONDecoder().decode(resp_json)
             #return JSON_object
-            return JsonResponse(json.JSONDecoder().decode(resp_json), safe=False)
+            return JsonResponse(r2, safe=False)
             #return resp_json
 
 #        except:

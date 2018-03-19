@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from api.v1.models import User, Item
+from api.models import User, Item
 import json
 
 # Create your views here.
@@ -54,13 +54,15 @@ def get_item(request, item_id):
     if request.method == 'GET':
         try:
             item = Item.objects.get(pk=item_id)
-            return JsonResponse({
-                    "Item_id":item_id,
-                            "Name":item.name,
-                             "Price": item.price,
-                             "Date Posted: ": item.datePosted,
-                             "Seller": str(item.seller),
-                             },
+            result = [item.as_json()]
+            return JsonResponse(json.JSONDecoder().decode(json.dumps(result)), content_type="application/json", safe=False)
+            return JsonResponse([{
+                    "item_id":item_id,
+                            "name":item.name,
+                             "price": item.price,
+                             "date posted: ": item.datePosted,
+                             "seller": str(item.seller),
+                             }],
                             safe=False)
 
         except:
