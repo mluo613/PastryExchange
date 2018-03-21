@@ -104,13 +104,12 @@ def upload_item(request, username):
         except:
             return JsonResponse("User does not exist. Upload failed.", safe=False)
 
-def delete_item(request, username):
+def delete_item(request, username, item_id):
 
     if request.method == 'POST':
         try:
             user = User.objects.get(username=username)
-            item = Item.objects.get(name=request.POST.get('name'),
-                                    seller=user)
+            item = Item.objects.get(pk=item_id)
             item.delete()
             return JsonResponse("Item successfully deleted", safe=False)
         except:
