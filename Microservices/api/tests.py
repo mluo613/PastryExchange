@@ -1,6 +1,6 @@
 from django.test import TestCase
-from api.v1 import views
-from api.v1.models import User, Item
+from api import views
+from api.models import User, Item
 from django.core import management
 
 # Create your tests here.
@@ -10,7 +10,7 @@ class UserTestCase(TestCase):
     #fixtures = ['db.json']
 
     def setUp(self):
-        management.call_command('loaddata', 'testdb.json', verbosity=0)
+        management.call_command('loaddata', 'db.json', verbosity=0)
         #pass
 
 #    def testGetValidUser(self):
@@ -36,7 +36,7 @@ class UserTestCase(TestCase):
 class UpdateUserAccountTest(TestCase):
     '''User would like to update user account'''
     def setUp(self):
-        management.call_command('loaddata', 'testdb.json', verbosity=0)
+        management.call_command('loaddata', 'db.json', verbosity=0)
         #pass
 
     def testUpdateUserPassword(self):
@@ -63,7 +63,7 @@ class UpdateUserAccountTest(TestCase):
 class DeleteUserAccountTest(TestCase):
     '''User deletes account from the marketplace'''
     def setUp(self):
-        management.call_command('loaddata', 'testdb.json', verbosity=0)
+        management.call_command('loaddata', 'db.json', verbosity=0)
         #pass
 
     def testDeleteUserAccount(self):
@@ -79,7 +79,7 @@ class DeleteUserAccountTest(TestCase):
 
     def testDeleteNonexistentUser(self):
         '''Tests that unexistent user deletion returns error message'''
-        response = self.client.post('/api/v1/users/Tom/delete')
+        response = self.client.post('/api/v1/users/Sam/delete')
         self.assertContains(response, 'Cannot delete user because user does not exist.')
 
     def tearDown(self):
@@ -91,7 +91,7 @@ class UploadItemTestCase(TestCase):
     '''User uploads an item for sale on the marketplace.'''
 
     def setUp(self):
-        management.call_command('loaddata', 'testdb.json', verbosity=0)
+        management.call_command('loaddata', 'db.json', verbosity=0)
         #pass
 
     def testUploadItem(self):
@@ -116,7 +116,7 @@ class UploadItemTestCase(TestCase):
 class UpdateItemTestCase(TestCase):
     '''User updates the price of an item'''
     def setUp(self):
-        management.call_command('loaddata', 'testdb.json', verbosity=0)
+        management.call_command('loaddata', 'db.json', verbosity=0)
         #pass
 
     def testUpdatePrice(self):
@@ -126,7 +126,7 @@ class UpdateItemTestCase(TestCase):
 
         self.client.post('/api/v1/users/TestNewUser/uploadItem', {'name': 'cake',
                                                                   'price': '2.34'})
-        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/1', {'name': 'cake',
+        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/2', {'name': 'cake',
                                                                 'price': '3.42'})
 
         self.assertContains(response, 'Item price updated.')
@@ -135,7 +135,7 @@ class UpdateItemTestCase(TestCase):
         '''Tests that update price fails when item does not exist'''
         self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
-        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/1', {'name': 'cake',
+        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/2', {'name': 'cake',
                                                                        'price': '3.42'})
 
         self.assertContains(response, 'Item not found')
