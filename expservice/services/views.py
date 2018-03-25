@@ -15,47 +15,65 @@ def latestItems(request):
         req = urllib.request.Request(url)
 
         resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-        #with urllib.request.urlopen(url) as response:
-         #   json = response.read()
         r2 = json.JSONDecoder().decode(resp_json)
-          #  encoding = json.info().get_content_charset('utf-8')
-           # JSON_object = json.loads(data.decode(encoding))
+
         newList = r2[-5:]
-        #newJSON_object = json.loads(newList)
         return JsonResponse(newList, safe=False)
     except:
         return JsonResponse("Something went wrong!", safe=False)
 
-# details 
 def itemDetails(request, pk):
-    if request.method == 'GET':
-#        try:
-            key = str(pk)
-            url = 'http://models-api:8000/api/v1/items/' + key
-            
-            req = urllib.request.Request(url)
-            
-            resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-            #return JsonResponse("Something2.", safe=False)
-            #resp = json.loads(resp_json)
-            #with urllib.request.urlopen(url) as response:
-             #   json = response.read()
-            #encoding = json.info().get_content_charset('utf-8') 
-            #JSON_object = json.loads(data.decode(encoding))                                                                                            
-            r2 = json.JSONDecoder().decode(resp_json)
-            #return JSON_object
-            return JsonResponse(r2, safe=False)
-            #return resp_json
+    try:
+        key = str(pk)
+        url = 'http://models-api:8000/api/v1/items/' + key
+        req = urllib.request.Request(url)
+        resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+        r2 = json.JSONDecoder().decode(resp_json)
+        return JsonResponse(r2, safe=False)
+    except:
+        return JsonResponse("Something went wrong!", safe=False)
 
-#        except:
-#            return JsonResponse("Something went wrong.", safe=False)
+def createAccount(request, username, password):
+    try:
+        url = 'http://models-api:8000/' #add url
+        req = urllib.request.Request(url)
+        resp = urllib.request.urlopen(req).read().decode('utf-8')
+        resp_json = json.JSONDecoder().decode(resp)
+        #return JsonResponse(resp_json, safe=False)
+        return JsonResponse("It worked!", safe=False)
+    except:
+        return JsonResponse("Something went wrong!", safe=False)
 
+def logout(request, auth):
+    try:
+        url = 'http://models-api:8000/' #add url
+        req = urllib.request.Request(url)
+        resp = urllib.request.urlopen(req).read().decode('utf-8')
+        resp_json = json.JSONDecoder().decode(resp)
+        #return JsonResponse(resp_json, safe=False)
+        return JsonResponse("It worked!", safe=False)
+    except:
+        return JsonResponse("Something went wrong!", safe=False)
 
-"""                                                                                                                                                                   
-                                                                                                                                                                      
-            with urllib.request.urlopen(url) as response:                                                                                                             
-                json = response.read()                                                                                                                                
-            encoding = json.info().get_content_charset('utf-8')                                                                                                       
-            JSON_object = json.loads(data.decode(encoding))                                                                                                           
-            return JSON_object                                                                                                                                        
-"""
+def login(request, username, password):
+    try:
+        url = 'http://models-api:8000/' #add url
+        req = urllib.request.Request(url)
+        resp = urllib.request.urlopen(req).read().decode('utf-8')
+        resp_json = json.JSONDecoder().decode(resp)
+        #return JsonResponse(resp_json, safe=False)
+        return JsonResponse("It worked!", safe=False)
+    except:
+        return JsonResponse("Something went wrong!", safe=False)
+
+def create_new_item(request, pk, auth):
+    try:
+        url = 'http://models-api:8000/' #add url
+        req = urllib.request.Request(url)
+        resp = urllib.request.urlopen(req).read().decode('utf-8')
+        resp_json = json.JSONDecoder().decode(resp)
+        #return JsonResponse(resp_json, safe=False)
+        return JsonResponse("It worked!", safe=False)
+    except:
+        return JsonResponse("Something went wrong!", safe=False)
+    
