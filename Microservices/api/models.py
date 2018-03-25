@@ -2,26 +2,27 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import DecimalValidator
 
+
 # Create your models here.
 
 class User(models.Model):
     username = models.CharField(max_length=200, unique=True)
     password = models.CharField(max_length=200)
 
+    def as_json(self):
+        return dict(username=self.username,
+                    password=self.password
+        )
+
     def __str__(self):
         return self.username
         #return '%s %s' % (self.username, self.password)
-'''
-    def create(self, username, password):
-        self.username = username
-        self.password = password
-        self.save()
-'''
+
 
 class Item(models.Model):
     name = models.CharField(max_length=300)
     price = models.DecimalField(max_digits=12, decimal_places=2, validators=[DecimalValidator])
-    datePosted = models.DateTimeField(default=timezone.now())
+    datePosted = models.DateTimeField(default=timezone.now)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def as_json(self):
@@ -34,14 +35,17 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
-'''
-    def post(self, name, username, price):
-        self.datePosted = timezone.now()
-        self.name = name
-        self.seller = username
-        self.price = price
-        self.save()
-'''
+class Authenticator(models.Model):
+    auth_num = models.CharField(max_length=3000)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        null=True
+    )
+    time_added = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return '%s %s' % (self.user, self.auth_num)
 
 '''
 FOR FUTURE IMPLEMENTATION
