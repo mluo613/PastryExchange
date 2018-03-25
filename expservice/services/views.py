@@ -33,40 +33,40 @@ def itemDetails(request, pk):
     except:
         return JsonResponse("Something went wrong!", safe=False)
 
-def createAccount(request, username, password):
+def createAccount(request):
     try:
-        url = 'http://models-api:8000/' #add url
+        url = 'http://models-api:8000/api/v1/users/create$'
         req = urllib.request.Request(url)
         resp = urllib.request.urlopen(req).read().decode('utf-8')
         resp_json = json.JSONDecoder().decode(resp)
-        #return JsonResponse(resp_json, safe=False)
-        return JsonResponse("It worked!", safe=False)
+        return JsonResponse(resp_json, safe=False)
+        #return JsonResponse("It worked!", safe=False)
     except:
         return JsonResponse("Something went wrong!", safe=False)
 
-def logout(request, auth):
+def logout(request):
     try:
-        url = 'http://models-api:8000/' #add url
+        url = 'http://models-api:8000/api/v1/users/logout'
         req = urllib.request.Request(url)
         resp = urllib.request.urlopen(req).read().decode('utf-8')
         resp_json = json.JSONDecoder().decode(resp)
-        #return JsonResponse(resp_json, safe=False)
-        return JsonResponse("It worked!", safe=False)
+        return JsonResponse(resp_json, safe=False)
+        #return JsonResponse("It worked!", safe=False)
     except:
         return JsonResponse("Something went wrong!", safe=False)
 
-def login(request, username, password):
+def login(request):
     try:
-        url = 'http://models-api:8000/' #add url
+        url = 'http://models-api:8000/api/v1/users/login$'
         req = urllib.request.Request(url)
         resp = urllib.request.urlopen(req).read().decode('utf-8')
         resp_json = json.JSONDecoder().decode(resp)
-        #return JsonResponse(resp_json, safe=False)
-        return JsonResponse("It worked!", safe=False)
+        return JsonResponse(resp_json, safe=False)
+        #return JsonResponse("It worked!", safe=False)
     except:
         return JsonResponse("Something went wrong!", safe=False)
 
-def create_new_item(request, pk, auth):
+def create_new_item(request):
     try:
         url = 'http://models-api:8000/' #add url
         req = urllib.request.Request(url)
