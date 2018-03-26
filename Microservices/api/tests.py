@@ -2,6 +2,7 @@ from django.test import TestCase
 from api import views
 from api.models import User, Item
 from django.core import management
+import json
 
 # Create your tests here.
 
@@ -44,8 +45,12 @@ class UpdateUserAccountTest(TestCase):
         self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
 
+        response = self.client.post('/api/v1/users/login', {'username': 'TestNewUser',
+                                                            'password': 'TestPassword'})
+
+
         response = self.client.post('/api/v1/users/TestNewUser', {'username': 'TestNewUser',
-                                                  'password': 'TestNewPassword'})
+                                                  'password': 'TestPassword', 'newPassword':'TestNewPassword'})
         self.assertContains(response, 'User exists. Password updated.')
 
     def testNonExistentUserUpdate(self):
@@ -99,8 +104,13 @@ class UploadItemTestCase(TestCase):
         self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
 
+        response = self.client.post('/api/v1/users/login', {'username': 'TestNewUser',
+                                                            'password': 'TestPassword'})
+
+        response = response.json()
+
         response = self.client.post('/api/v1/users/TestNewUser/uploadItem', {'name':'cake',
-                                                                  'price':'2.34'})
+                                                                  'price':'2.34', 'auth':response['Auth_num']})
 
         self.assertContains(response, 'Item successfully uploaded')
 
@@ -124,9 +134,15 @@ class UpdateItemTestCase(TestCase):
         self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
 
+        response = self.client.post('/api/v1/users/login', {'username': 'TestNewUser',
+                                                  'password': 'TestPassword'})
+
+        response = response.json()
+
         self.client.post('/api/v1/users/TestNewUser/uploadItem', {'name': 'cake',
-                                                                  'price': '2.34'})
-        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/2', {'name': 'cake',
+                                                                  'price': '2.34', 'auth':response['Auth_num']})
+
+        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/4', {'name': 'cake',
                                                                 'price': '3.42'})
 
         self.assertContains(response, 'Item price updated.')
