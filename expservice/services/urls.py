@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^users/create$', views.createAccount, name='createAccount'),
     url(r'^users/logout', views.logout, name='logout'),
     url(r'^users/login$', views.login, name='login'),
-    url(r'^items/create/(?P<auth>\d+)/(?P<pk>\d+)/', views.create_new_item, name='create_new_item'),
+    url(r'^users/(?P<username>[-\w]+)/uploadItem$', views.create_new_item, name='create_new_item'),
 ]

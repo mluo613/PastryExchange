@@ -66,9 +66,9 @@ def login(request):
     except:
         return JsonResponse("Something went wrong!", safe=False)
 
-def create_new_item(request):
+def create_new_item(request, username):
     try:
-        url = 'http://models-api:8000/' #add url
+        url = 'http://models-api:8000/api/v1/users/' + str(username) + '/uploadItem$'
         req = urllib.request.Request(url)
         resp = urllib.request.urlopen(req).read().decode('utf-8')
         resp_json = json.JSONDecoder().decode(resp)
