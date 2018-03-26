@@ -10,7 +10,6 @@ import json
 
 # home page
 def latestItems(request):
-#    try:
     url = 'http://models-api:8000/api/v1/getallitems'
     req = urllib.request.Request(url)
 
@@ -19,8 +18,6 @@ def latestItems(request):
 
     newList = r2[-5:]
     return JsonResponse(newList, safe=False)
-#    except:
-#        return JsonResponse("Something went wrong!", safe=False)
 
 def itemDetails(request, pk):
     try:
@@ -35,9 +32,10 @@ def itemDetails(request, pk):
 
 def createAccount(request):
     try:
+        data = request.POST.encode()
         url = 'http://models-api:8000/api/v1/users/create$'
         req = urllib.request.Request(url)
-        resp = urllib.request.urlopen(req).read().decode('utf-8')
+        resp = urllib.request.urlopen(req, data).read().decode('utf-8')
         resp_json = json.JSONDecoder().decode(resp)
         return JsonResponse(resp_json, safe=False)
         #return JsonResponse("It worked!", safe=False)
@@ -46,9 +44,10 @@ def createAccount(request):
 
 def logout(request):
     try:
+        data = request.POST.encode()
         url = 'http://models-api:8000/api/v1/users/logout'
         req = urllib.request.Request(url)
-        resp = urllib.request.urlopen(req).read().decode('utf-8')
+        resp = urllib.request.urlopen(req, data).read().decode('utf-8')
         resp_json = json.JSONDecoder().decode(resp)
         return JsonResponse(resp_json, safe=False)
         #return JsonResponse("It worked!", safe=False)
@@ -57,9 +56,10 @@ def logout(request):
 
 def login(request):
     try:
+        data = request.POST.encode()
         url = 'http://models-api:8000/api/v1/users/login$'
         req = urllib.request.Request(url)
-        resp = urllib.request.urlopen(req).read().decode('utf-8')
+        resp = urllib.request.urlopen(req, data).read().decode('utf-8')
         resp_json = json.JSONDecoder().decode(resp)
         return JsonResponse(resp_json, safe=False)
         #return JsonResponse("It worked!", safe=False)
@@ -68,9 +68,10 @@ def login(request):
 
 def create_new_item(request, username):
     try:
+        data = request.POST.encode()
         url = 'http://models-api:8000/api/v1/users/' + str(username) + '/uploadItem$'
         req = urllib.request.Request(url)
-        resp = urllib.request.urlopen(req).read().decode('utf-8')
+        resp = urllib.request.urlopen(req, data).read().decode('utf-8')
         resp_json = json.JSONDecoder().decode(resp)
         #return JsonResponse(resp_json, safe=False)
         return JsonResponse("It worked!", safe=False)
