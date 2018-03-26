@@ -42,9 +42,9 @@ def login(request):
                     return JsonResponse(
                         {'Auth_num': auth.auth_num, 'user': auth.user.username, 'date': auth.time_added}, safe=False)
                 else:
-                    return JsonResponse('Password incorrect.', safe=False)
+                    return JsonResponse({'error':'Password incorrect.'}, safe=False)
         except User.DoesNotExist:
-            return JsonResponse('User does not exist.', safe=False)
+            return JsonResponse({'error':'User does not exist.'}, safe=False)
 
 def logout(request):
     '''Logs an user out using username'''
@@ -53,11 +53,11 @@ def logout(request):
             user = User.objects.get(username=request.POST.get('username'))
             auth = Authenticator.objects.get(user=user)
             auth.delete()
-            return JsonResponse('You are logged out.', safe=False)
+            return JsonResponse({'ok':'You are logged out.'}, safe=False)
         except User.DoesNotExist:
-            return JsonResponse('User does not exist.', safe=False)
+            return JsonResponse({'error':'User does not exist.'}, safe=False)
         except Authenticator.DoesNotExist:
-            return JsonResponse('You are already logged out.', safe=False)
+            return JsonResponse({'error':'You are already logged out.'}, safe=False)
 
 
 
