@@ -46,7 +46,6 @@ def login(request):
         except User.DoesNotExist:
             return JsonResponse('User does not exist.', safe=False)
 
-
 def logout(request):
     '''Logs an user out using username'''
     if request.method == 'POST':
@@ -60,6 +59,8 @@ def logout(request):
         except Authenticator.DoesNotExist:
             return JsonResponse('You are already logged out.', safe=False)
 
+
+
 def getUpdate_user(request, username):
     if request.method == 'GET':
         try:
@@ -67,15 +68,21 @@ def getUpdate_user(request, username):
             return JsonResponse({"Password":user.password, "Username: ": user.username}, safe=False)
         except:
             return JsonResponse("User does not exist.", safe=False)
-
+    # Possibly change this to passing in auth?
     elif request.method == 'POST':
         try:
             user = User.objects.get(username=username)
-            user.password = request.POST.get('password')
-            user.save()
-            return JsonResponse("User exists. Password updated.", safe=False)
-        except:
+            valid_pwd = check_password(request.POST.get('password'), user.password)
+            if valid_pwd:
+                user.password = make_password(request.POST.get('newPassword'))
+                user.save()
+                return JsonResponse("User exists. Password updated.", safe=False)
+            else:
+                return JsonResponse("Password invalid, thus did not update user profile.", safe=False)
+        except User.DoesNotExist:
             return JsonResponse("User does not exist.", safe=False)
+        except:
+            return JsonResponse('Password update failed due to invalid new password.', safe=False)
 
 def create_user(request):
     if request.method == 'POST':
@@ -157,13 +164,22 @@ def upload_item(request, username):
     if request.method == 'POST':
         try:
             user = User.objects.get(username=username)
-            item = Item.objects.create(name=request.POST.get('name'),
-                                       price=request.POST.get('price'),
-                                       seller=user)
-            item.save()
-            return JsonResponse("Item successfully uploaded", safe=False)
-        except:
+            authen = Authenticator.objects.get(user=user)
+            logged_in = (authen.auth_num == request.POST.get('auth'))
+            if logged_in:
+                item = Item.objects.create(name=request.POST.get('name'),
+                                           price=request.POST.get('price'),
+                                           seller=user)
+                item.save()
+                return JsonResponse("Item successfully uploaded", safe=False)
+            else:
+                return JsonResponse('Cookie value does not match. Upload failed.', safe=False)
+        except User.DoesNotExist:
             return JsonResponse("User does not exist. Upload failed.", safe=False)
+        except Authenticator.DoesNotExist:
+            return JsonResponse('User not logged in. Please login before uploading.', safe=False)
+        except:
+            return JsonResponse('Fields of item are incorrect. Upload failed.', safe=False)
 
 def delete_item(request, username, item_id):
 
