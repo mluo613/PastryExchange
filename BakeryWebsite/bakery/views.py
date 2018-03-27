@@ -198,13 +198,15 @@ def index(request):
   #      return HttpResponse(resp)
         if resp == "Something went wrong!":    
             return HttpResponse("Something went wrong!")
-        auth = request.COOKIES.get('auth')
-        message = None
-        if auth:
-            message = "You have successfully logged in!"
+
+        # auth = request.COOKIES.get('auth')
+        # message = None
+        # if auth:
+        #     message = "Successfully logged in!"
+    
         context = {
             'bakeryItem_list': resp,
-            'messages': message,
+            #'messages': message,
             }
         return render(request, 'bakery/index.html', context)
 
