@@ -193,7 +193,8 @@ def upload_item(request):
             logged_in = (authen.auth_num == request.POST.get('Auth_num'))
             now = datetime.datetime.utcnow().replace(tzinfo=utc)
             timediff = now - authen.time_added
-            if timediff.total_seconds() > 5:
+            time_out_seconds = 60 * 30
+            if timediff.total_seconds() > time_out_seconds:
                 authen.delete()
                 return JsonResponse({'status': False, 'message': 'Login timed out. Please log in again.'}, safe=False)
             if logged_in:
