@@ -101,11 +101,8 @@ class UploadItemTestCase(TestCase):
 
     def testUploadItem(self):
         '''Testing if Item is uploaded and can be retrived by get'''
-        self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
+        response = self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
-
-        response = self.client.post('/api/v1/users/login', {'username': 'TestNewUser',
-                                                            'password': 'TestPassword'})
 
         response = response.json()
 
@@ -131,21 +128,20 @@ class UpdateItemTestCase(TestCase):
 
     def testUpdatePrice(self):
         '''Test to update the price of an item '''
-        self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
-                                                  'password': 'TestPassword'})
-
-        response = self.client.post('/api/v1/users/login', {'username': 'TestNewUser',
+        response = self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
 
         response = response.json()
 
-        self.client.post('/api/v1/users/uploadItem', {'name': 'cake',
-                                                                  'price': '2.34', 'auth_num':response['Auth_num']})
+        id = self.client.post('/api/v1/users/uploadItem', {'name': 'cake',
+                                                                  'price': '2.34', 'Auth_num':response['Auth_num']})
+        id = id.json()
 
-        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/4', {'name': 'cake',
+
+        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/' + str(id['item_id']), {'name': 'cake',
                                                                 'price': '3.42'})
 
-        self.assertContains(response, 'Item price updated.')
+        self.assertContains(response, 'Item price updated')
 
     def testFailedUpdateItem(self):
         '''Tests that update price fails when item does not exist'''
