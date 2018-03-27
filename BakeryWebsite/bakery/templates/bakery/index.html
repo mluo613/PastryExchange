@@ -1,6 +1,10 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+{% if messages %}
+          <p style="color: red">{{ messages }}</p>
+        {% endif %}
+
 <h1>Home</h1>
 
   <p>Welcome to <em>Bakery</em>, a website for UVA students to sell and buy baked goods from each other.</p>

@@ -35,7 +35,7 @@ def createAccount(request):
 #    try:
         data_dict = request.POST
         #data_encoded = urllib.urlencode(data_dict)
-        url = 'http://models-api:8000/api/v1/users/create$'
+        url = 'http://models-api:8000/api/v1/users/create'
         #req = urllib.request.Request(url, data_encoded)
         #resp = urllib.request.urlopen(req).read().decode('utf-8')
         resp = requests.post(url, data_dict)
