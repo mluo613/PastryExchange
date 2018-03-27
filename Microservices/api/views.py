@@ -6,6 +6,9 @@ import json
 from django.contrib.auth.hashers import check_password, make_password
 import os
 import hmac
+from django.utils.timezone import utc
+import datetime
+
 # import django settings file
 from bakery import settings
 
@@ -188,6 +191,11 @@ def upload_item(request):
             #user = User.objects.get(username=username)
             authen = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
             logged_in = (authen.auth_num == request.POST.get('Auth_num'))
+            now = datetime.datetime.utcnow().replace(tzinfo=utc)
+            timediff = now - authen.time_added
+            if timediff.total_seconds() > 5:
+                authen.delete()
+                return JsonResponse({'status': False, 'message': 'Login timed out. Please log in again.'}, safe=False)
             if logged_in:
                 item = Item.objects.create(name=request.POST.get('name'),
                                            price=request.POST.get('price'),
