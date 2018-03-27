@@ -40,11 +40,11 @@ def login(request):
                     auth.save()
 
                     return JsonResponse(
-                        {'Auth_num': auth.auth_num, 'user': auth.user.username, 'date': auth.time_added}, safe=False)
+                        {'status':True,'Auth_num': auth.auth_num, 'user': auth.user.username, 'date': auth.time_added}, safe=False)
                 else:
-                    return JsonResponse({'error':'Password incorrect.'}, safe=False)
+                    return JsonResponse({'status':False, 'message':'Password incorrect.'}, safe=False)
         except User.DoesNotExist:
-            return JsonResponse({'error':'User does not exist.'}, safe=False)
+            return JsonResponse({"status":False, 'message':'User does not exist.'}, safe=False)
 
 def logout(request):
     '''Logs an user out using username'''
@@ -53,11 +53,11 @@ def logout(request):
             user = User.objects.get(username=request.POST.get('username'))
             auth = Authenticator.objects.get(user=user)
             auth.delete()
-            return JsonResponse({'ok':'You are logged out.'}, safe=False)
+            return JsonResponse({'status':True,'message':'You are logged out.'}, safe=False)
         except User.DoesNotExist:
-            return JsonResponse({'error':'User does not exist.'}, safe=False)
+            return JsonResponse({'status':False,'message':'User does not exist.'}, safe=False)
         except Authenticator.DoesNotExist:
-            return JsonResponse({'error':'You are already logged out.'}, safe=False)
+            return JsonResponse({'status':False,'message':'You are already logged out.'}, safe=False)
 
 
 
@@ -91,9 +91,9 @@ def create_user(request):
             user = User.objects.create(username=request.POST.get('username'),
                                        password=hash_password)
             user.save()
-            return JsonResponse({"Username: ": user.username, 'Password: ': user.password}, safe=False)
+            return JsonResponse({'status':True, "Username: ": user.username, 'Password: ': user.password}, safe=False)
         except:
-            return JsonResponse("User already exists.", safe=False)
+            return JsonResponse({'status':False, 'message':"User already exists."}, safe=False)
 
 def delete_user(request, username):
     if request.method == 'POST':
@@ -171,15 +171,15 @@ def upload_item(request, username):
                                            price=request.POST.get('price'),
                                            seller=user)
                 item.save()
-                return JsonResponse("Item successfully uploaded", safe=False)
+                return JsonResponse({'status':True,'message':"Item successfully uploaded"}, safe=False)
             else:
-                return JsonResponse('Cookie value does not match. Upload failed.', safe=False)
+                return JsonResponse({'status':False, 'message':'Cookie value does not match. Upload failed.'}, safe=False)
         except User.DoesNotExist:
-            return JsonResponse("User does not exist. Upload failed.", safe=False)
+            return JsonResponse({'status':False, 'message':"User does not exist. Upload failed."}, safe=False)
         except Authenticator.DoesNotExist:
-            return JsonResponse('User not logged in. Please login before uploading.', safe=False)
+            return JsonResponse({'status':False,'message':'User not logged in. Please login before uploading.'}, safe=False)
         except:
-            return JsonResponse('Fields of item are incorrect. Upload failed.', safe=False)
+            return JsonResponse({'status':False,'message':'Fields of item are incorrect. Upload failed.'}, safe=False)
 
 def delete_item(request, username, item_id):
 
