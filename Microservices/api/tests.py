@@ -109,15 +109,15 @@ class UploadItemTestCase(TestCase):
 
         response = response.json()
 
-        response = self.client.post('/api/v1/users/TestNewUser/uploadItem', {'name':'cake',
-                                                                  'price':'2.34', 'auth':response['Auth_num']})
+        response = self.client.post('/api/v1/users/uploadItem', {'name':'cake',
+                                                                  'price':'2.34', 'Auth_num':response['Auth_num']})
 
-        self.assertContains(response, 'Item successfully uploaded')
+        self.assertContains(response, 'item_id')
 
     def testUploadUserNonExistentFailed(self):
         '''Tests if upload item fails accordingly when the user doesn't exist'''
-        response = self.client.post('/api/v1/users/NonexistentUser/uploadItem')
-        self.assertContains(response, 'User does not exist. Upload failed.')
+        response = self.client.post('/api/v1/users/uploadItem')
+        self.assertContains(response, 'User not logged in. Please login before uploading.')
 
     def tearDown(self):
         pass
@@ -139,8 +139,8 @@ class UpdateItemTestCase(TestCase):
 
         response = response.json()
 
-        self.client.post('/api/v1/users/TestNewUser/uploadItem', {'name': 'cake',
-                                                                  'price': '2.34', 'auth':response['Auth_num']})
+        self.client.post('/api/v1/users/uploadItem', {'name': 'cake',
+                                                                  'price': '2.34', 'auth_num':response['Auth_num']})
 
         response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/4', {'name': 'cake',
                                                                 'price': '3.42'})

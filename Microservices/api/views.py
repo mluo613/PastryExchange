@@ -91,7 +91,19 @@ def create_user(request):
             user = User.objects.create(username=request.POST.get('username'),
                                        password=hash_password)
             user.save()
-            return JsonResponse({'status':True, "Username: ": user.username, 'Password: ': user.password}, safe=False)
+
+            authenticator_random_number = hmac.new(
+                key=settings.SECRET_KEY.encode('utf-8'),
+                msg=os.urandom(32),
+                digestmod='sha256',
+            ).hexdigest()
+            auth = Authenticator.objects.create(auth_num=authenticator_random_number, user=user)
+            auth.save()
+
+            return JsonResponse(
+                {'status': True, 'Auth_num': auth.auth_num, 'user': auth.user.username, 'date': auth.time_added},
+                safe=False)
+            #return JsonResponse({'status':True, "Username: ": user.username, 'Password: ': user.password}, safe=False)
         except:
             return JsonResponse({'status':False, 'message':"User already exists."}, safe=False)
 
