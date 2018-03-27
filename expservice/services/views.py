@@ -76,14 +76,14 @@ def login(request):
 #    except:
 #        return JsonResponse("Something went wrong!", safe=False)
 
-def create_new_item(request, username):
+def create_new_item(request):
 #    try:
         data_dict = request.POST
         #data_encoded = urllib.urlencode(data_dict)
-        url = 'http://models-api:8000/api/v1/users/' + str(username) + '/uploadItem'
+        url = 'http://models-api:8000/api/v1/users/uploadItem'
         #req = urllib.request.Request(url, data_encoded)
         #resp = urllib.request.urlopen(req).read().decode('utf-8')
-        resp = requests.post(url, data)
+        resp = requests.post(url, data_dict)
         #resp_json = json.JSONDecoder().decode(resp)
         resp_json = resp.json()
         return JsonResponse(resp_json, safe=False)

@@ -47,6 +47,10 @@ class Authenticator(models.Model):
     def __str__(self):
         return '%s %s' % (self.user, self.auth_num)
 
+    def as_json(self):
+        return dict(auth_num=self.auth_num,
+                    user=self.user.username,
+        )
 '''
 FOR FUTURE IMPLEMENTATION
 class Review(models.Model):

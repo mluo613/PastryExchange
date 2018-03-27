@@ -28,7 +28,7 @@ def login(request):
             valid_pwd = check_password(request.POST.get('password'), user.password)
             try:
                 existing_auth = Authenticator.objects.get(user=user)
-                return JsonResponse('User already logged in.', safe=False)
+                return JsonResponse({'status':False,'message':'User already logged in.'}, safe=False)
             except Authenticator.DoesNotExist:
                 if valid_pwd:
                     authenticator_random_number = hmac.new(
@@ -50,12 +50,12 @@ def logout(request):
     '''Logs an user out using username'''
     if request.method == 'POST':
         try:
-            user = User.objects.get(username=request.POST.get('username'))
-            auth = Authenticator.objects.get(user=user)
+            #user = User.objects.get(username=request.POST.get('username'))
+            auth = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
             auth.delete()
             return JsonResponse({'status':True,'message':'You are logged out.'}, safe=False)
-        except User.DoesNotExist:
-            return JsonResponse({'status':False,'message':'User does not exist.'}, safe=False)
+        #except User.DoesNotExist:
+            #return JsonResponse({'status':False,'message':'User does not exist.'}, safe=False)
         except Authenticator.DoesNotExist:
             return JsonResponse({'status':False,'message':'You are already logged out.'}, safe=False)
 
@@ -115,6 +115,16 @@ def get_all_users(request):
         except:
             return JsonResponse("No user in database.", safe=False)
 
+def get_all_logged_users(request):
+    if request.method == "GET":
+        #try:
+        userList = Authenticator.objects.all()
+        results = [ob.as_json() for ob in userList]
+        return JsonResponse(json.JSONDecoder().decode(json.dumps(results)),
+                                content_type="application/json",
+                                safe=False)
+        #except:
+        #    return JsonResponse("No logged user in database.", safe=False)
 
 # These are the functions for model Item
 def get_item(request, item_id):
@@ -159,27 +169,27 @@ def update_item(request, username, item_id):
         except:
             return JsonResponse("Item not found.", safe=False)
 
-def upload_item(request, username):
+def upload_item(request):
 
     if request.method == 'POST':
         try:
-            user = User.objects.get(username=username)
-            authen = Authenticator.objects.get(user=user)
-            logged_in = (authen.auth_num == request.POST.get('auth'))
+            #user = User.objects.get(username=username)
+            authen = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
+            logged_in = (authen.auth_num == request.POST.get('Auth_num'))
             if logged_in:
                 item = Item.objects.create(name=request.POST.get('name'),
                                            price=request.POST.get('price'),
-                                           seller=user)
+                                           seller=authen.user)
                 item.save()
-                return JsonResponse({'status':True,'message':"Item successfully uploaded"}, safe=False)
+                return JsonResponse({'status':True,'item_id':item.pk}, safe=False)
             else:
                 return JsonResponse({'status':False, 'message':'Cookie value does not match. Upload failed.'}, safe=False)
-        except User.DoesNotExist:
-            return JsonResponse({'status':False, 'message':"User does not exist. Upload failed."}, safe=False)
+        #except User.DoesNotExist:
+        #    return JsonResponse({'status':False, 'message':"User does not exist. Upload failed."}, safe=False)
         except Authenticator.DoesNotExist:
             return JsonResponse({'status':False,'message':'User not logged in. Please login before uploading.'}, safe=False)
-        except:
-            return JsonResponse({'status':False,'message':'Fields of item are incorrect. Upload failed.'}, safe=False)
+        #except:
+        #    return JsonResponse({'status': 'reupload','message':'Fields of item are incorrect. Upload failed.'}, safe=False)
 
 def delete_item(request, username, item_id):
 
