@@ -50,7 +50,7 @@ def login(request):
     if not resp_json or resp_json['status'] == False:
         # Couldn't log them in, send them back to login page with error
         form = LogInForm()
-        return render(request, 'bakery/login.html', {'error': resp_json['message'], 'form': form, 'name': name})
+        return render(request, 'bakery/login.html', {'error': resp_json['message'], 'form': form})
 
     """ If we made it here, we can log them in. """
     # Set their login cookie and redirect to back to wherever they came from
@@ -161,7 +161,9 @@ def createNewItem(request):
     # Check if the experience layer said they gave us incorrect information
     if not resp_json or resp_json['status'] == False:
         #messages.add_message(request, messages.INFO, resp_json['message'])
-        return HttpResponseRedirect(reverse("login") + "?next=" + reverse("createNewItem"))
+        #return HttpResponseRedirect(reverse("login") + "?next=" + reverse("createNewItem"))
+        form = LogInForm()
+        return render(request, 'bakery/login.html', {'error': resp_json['message'], 'form': form})
 
     elif resp_json['status'] == 'reupload':
         form = CreateNewItemForm()
