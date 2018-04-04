@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import requests
+from elasticsearch import Elasticsearch
+from kafka import KafkaProducer
+from kafka import KafkaConsumer
+import json
 
 
 # Create your views here.
@@ -32,62 +36,31 @@ def itemDetails(request, pk):
         return JsonResponse("Something went wrong!", safe=False)
 
 def createAccount(request):
-#    try:
-        data_dict = request.POST
-        #data_encoded = urllib.urlencode(data_dict)
-        url = 'http://models-api:8000/api/v1/users/create'
-        #req = urllib.request.Request(url, data_encoded)
-        #resp = urllib.request.urlopen(req).read().decode('utf-8')
-        resp = requests.post(url, data_dict)
-        #resp_json = json.JSONDecoder().decode(resp)
-        resp_json = resp.json()
-        return JsonResponse(resp_json, safe=False)
-        #return JsonResponse("It worked!", safe=False)
-#    except:
-#        return JsonResponse("Something went wrong!", safe=False)
-
-def logout(request):
-#    try:
-        data_dict = request.POST
-        #data_encoded = urllib.urlencode(data_dict)
-        url = 'http://models-api:8000/api/v1/users/logout'
-        #req = urllib.request.Request(url, data_encoded)
-        #resp = urllib.request.urlopen(req).read().decode('utf-8')
-        resp = requests.post(url, data_dict)
-        #resp_json = json.JSONDecoder().decode(resp)
-        resp_json = resp.json()
-        return JsonResponse(resp_json, safe=False)
-        #return JsonResponse("It worked!", safe=False)
-#    except:
-#        return JsonResponse("Something went wrong!", safe=False)
-
-def login(request):
-#    try:
     data_dict = request.POST
-    #data_encoded = urllib.urlencode(data_dict)
-    url = 'http://models-api:8000/api/v1/users/login'
-    #req = urllib.request.Request(url, data_encoded)
-    #resp = urllib.request.urlopen(req).read().decode('utf-8')
+    url = 'http://models-api:8000/api/v1/users/create'
     resp = requests.post(url, data_dict)
-    #resp_json = json.JSONDecoder().decode(resp)
     resp_json = resp.json()
     return JsonResponse(resp_json, safe=False)
-    #return JsonResponse("It worked!", safe=False)
-#    except:
-#        return JsonResponse("Something went wrong!", safe=False)
+
+def logout(request):
+    data_dict = request.POST
+    url = 'http://models-api:8000/api/v1/users/logout'
+    resp = requests.post(url, data_dict)
+    resp_json = resp.json()
+    return JsonResponse(resp_json, safe=False)
+
+def login(request):
+    data_dict = request.POST
+    url = 'http://models-api:8000/api/v1/users/login'
+    resp = requests.post(url, data_dict)
+    resp_json = resp.json()
+    return JsonResponse(resp_json, safe=False)
 
 def create_new_item(request):
-#    try:
-        data_dict = request.POST
-        #data_encoded = urllib.urlencode(data_dict)
-        url = 'http://models-api:8000/api/v1/users/uploadItem'
-        #req = urllib.request.Request(url, data_encoded)
-        #resp = urllib.request.urlopen(req).read().decode('utf-8')
-        resp = requests.post(url, data_dict)
-        #resp_json = json.JSONDecoder().decode(resp)
-        resp_json = resp.json()
-        return JsonResponse(resp_json, safe=False)
-        #return JsonResponse("It worked!", safe=False)
-#    except:
-#        return JsonResponse("Something went wrong!", safe=False)
-    
+    data_dict = request.POST
+    url = 'http://models-api:8000/api/v1/users/uploadItem'
+    resp = requests.post(url, data_dict)
+    resp_json = resp.json()
+    return JsonResponse(resp_json, safe=False)
+
+# search
