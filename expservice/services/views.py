@@ -3,7 +3,6 @@ from django.http import JsonResponse, HttpResponse
 import requests
 from elasticsearch import Elasticsearch
 from kafka import KafkaProducer
-import json
 
 
 # Create your views here.

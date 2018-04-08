@@ -48,6 +48,8 @@ batch:
    links:
       - kafka:kafka
       - es:es
+   ports:
+      - "8003:8000"
    volumes:
       - ./batch:/batch
    command: python /batch/searchindexer.py &
