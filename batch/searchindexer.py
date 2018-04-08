@@ -1,7 +1,7 @@
-from  elasticsearch import Elasticsearch
 from kafka import KafkaConsumer
-import time
+from elasticsearch import Elasticsearch
 import json
+import time
 
 time.sleep(20)
 
