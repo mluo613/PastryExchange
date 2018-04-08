@@ -48,4 +48,6 @@ batch:
    links:
       - kafka:kafka
       - es:es
+   volumes:
+      - ./batch:/batch
    command: python /batch/searchindexer.py &

@@ -3,7 +3,6 @@ from django.http import JsonResponse, HttpResponse
 import requests
 from elasticsearch import Elasticsearch
 from kafka import KafkaProducer
-from kafka import KafkaConsumer
 import json
 
 
@@ -64,9 +63,8 @@ def create_new_item(request):
     if resp_json['status'] == False:
         return JsonResponse(resp_json, safe=False)
     else:
-       item_details = itemDetails(request, resp_json['item_id'])
        producer = KafkaProducer(bootstrap_servers='kafka:9092')
-       producer.send('new-listings-topic', json.dumps(item_details).encode('utf-8'))
+       producer.send('new-listings-topic', json.dumps(data_dict.text).encode('utf-8'))
        return JsonResponse(resp_json, safe=False)
 
 # search
