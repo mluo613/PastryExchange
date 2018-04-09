@@ -7,4 +7,8 @@
   <p><strong>Seller:</strong> {{ bakeryItem.0.seller }}</p>
   <p><strong>Price:</strong> {{ bakeryItem.0.price }}</p>
 
+
+  <p><a href="{{ bakeryItem.0.get_absolute_url}} update/{{ bakeryItem.0.item_id }} " >Update Item</a></p>
+  <p><a href="{{ bakeryItem.0.get_absolute_url}} delete/{{ bakeryItem.0.item_id }} " >Delete Item</a></p>
+
 {% endblock %}

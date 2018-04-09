@@ -20,3 +20,6 @@ class LogInForm(forms.Form):
 class CreateNewItemForm(forms.Form):
     name = forms.CharField(label='Name', max_length=100)
     price = forms.DecimalField(max_digits=6, decimal_places=2)
+
+class SearchForm(forms.Form):
+    searchStr = forms.CharField(label='Search', max_length=100)
