@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^users/logout', views.logout, name='logout'),
     url(r'^users/login$', views.login, name='login'),
     url(r'^users/uploadItem$', views.create_new_item, name='create_new_item'),
-    url(r'^search/(?P<query>\w+)/', views.search_items, name='search_items'),
+    url(r'^search/(?P<query>[\w\ ]+)/', views.search_items, name='search_items'),
 ]
