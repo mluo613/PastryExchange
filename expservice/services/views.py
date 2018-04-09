@@ -59,17 +59,18 @@ def create_new_item(request):
     url = 'http://models-api:8000/api/v1/users/uploadItem'
     resp = requests.post(url, data_dict)
     resp_json = resp.json()
-    if resp_json['status'] == False:
-        return JsonResponse(resp_json, safe=False)
-    else:
-       producer = KafkaProducer(bootstrap_servers='kafka:9092')
-       producer.send('new-listings-topic', json.dumps(data_dict.text).encode('utf-8'))
-       return JsonResponse(resp_json, safe=False)
+    producer = KafkaProducer(bootstrap_servers='kafka:9092')
+    if resp_json['status']==True:
+       producer.send('new-listings-topic', json.dumps(resp_json).encode('utf-8'))
+    return JsonResponse(resp_json, safe=False)
 
 # search
 
 def search_items(request, query):
-    es = Elasticsearch(['es'])
-    term = str(query)
-    results = es.search(index='listing_index', body={'query': {'query_string': {'query': term}}, 'size':10})
-    return JsonResponse(results, safe=False)
+    try:
+        es = Elasticsearch(['es'])
+        term = str(query)
+        results = es.search(index='listing_index', body={'query': {'query_string': {'query': term}}, 'size':10})
+        return JsonResponse(results, safe=False)
+    except:
+        return JsonResponse("Something went wrong!", safe=False)
