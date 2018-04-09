@@ -121,11 +121,15 @@ def search(request):
     req = urllib.request.Request('http://exp-api:8000/services/search/' + searchStr + '/')
     resp_json = urllib.request.urlopen(req).read().decode('utf-8')
     resp = json.loads(resp_json)
+    resp = resp['hits']['hits']
+    data = []
+    for r in resp:
+        data.append(r['_source'])
     #   return HttpResponse(resp)
-    if resp == "Something went wrong!" or resp == "Item does not exist.":
-        return HttpResponse("Item does not exist.")
+    #if resp == "Something went wrong!" or resp == "Item does not exist.":
+        #return HttpResponse("Item does not exist.")
     context = {
-        'searchResult': resp,
+        'searchResult': data,
     }
     # return HttpResponse(bakeryItem)
     return render(request, 'bakery/searchResult.html', context)

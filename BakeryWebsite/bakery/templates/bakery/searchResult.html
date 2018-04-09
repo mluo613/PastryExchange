@@ -9,11 +9,10 @@
 
   {% if searchResult %}
   <ul>
-
     {% for result in searchResult %}
-    <li>
-      <a href="{{ result.get_absolute_url}} bakeryItem/{{ result.item_id }} " >{{ result.name }}</a> ({{result.seller}})
-    </li>
+      <li>
+        <a href="{{ result.get_absolute_url}} bakeryItem/{{ result.item_id }} " >{{ result.name }}</a> ({{result.seller}})
+      </li>
     {% endfor %}
 
   </ul>
