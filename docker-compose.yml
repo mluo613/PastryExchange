@@ -12,6 +12,7 @@ exp:
    image: tp33/django
    links:
       - models:models-api
+      - es:es
    ports:
       - "8002:8000"
    volumes:
