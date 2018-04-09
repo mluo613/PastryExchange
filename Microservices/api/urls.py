@@ -11,10 +11,10 @@ urlpatterns = [
 
     url(r'^users/(?P<username>[-\w]+)/update$', views.getUpdate_user, name='getUpdate_user'),
     url(r'^users/(?P<username>[-\w]+)/delete$', views.delete_user, name='delete_user'),
-    url(r'^users/(?P<username>[-\w]+)/items/updateItem/(?P<item_id>\d+)$', views.update_item, name='update_item'),
-    url(r'^users/(?P<username>[-\w]+)/items/deleteItem/(?P<item_id>\d+)$', views.delete_item, name='delete_item'),
 
     url(r'^items/(?P<item_id>\d+)$', views.get_item, name='get_item'),
+    url(r'^items/updateItem/(?P<item_id>\d+)$', views.update_item, name='update_item'),
+    url(r'^items/deleteItem/(?P<item_id>\d+)$', views.delete_item, name='delete_item'),
 
     url(r'^users/(?P<username>[-\w]+)$', views.getUpdate_user, name='getUpdate_user'),
     #    url(r'^items/(?P<item_name>[-\w]+)', views.getUpdate_item, name='getUpdate_item'),

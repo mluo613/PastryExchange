@@ -170,19 +170,23 @@ def get_item(request, item_id):
                              },
                             safe=False)
 '''
-def update_item(request, username, item_id):
+def update_item(request, item_id):
     if request.method == 'POST':
         try:
             item = Item.objects.get(pk=item_id)
-            if (item.seller.username == username):
+            authen = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
+            if (item.seller.username == authen.user.username):
                 item.price = request.POST.get('price')
+                item.name = request.POST.get('name')
                 item.save()
-                return JsonResponse("Item price updated.", safe=False)
+                return JsonResponse({'status': True, 'message':"Item's name and price are updated."}, safe=False)
             else:
-                return JsonResponse("Item associated with user does not exist.", safe=False)
+                return JsonResponse({'status': False, 'message':"Item is not associated with user. Update failed."}, safe=False)
 
-        except:
-            return JsonResponse("Item not found.", safe=False)
+        except Item.DoesNotExist:
+            return JsonResponse({'status': False, 'message':"Item not found."}, safe=False)
+        except Authenticator.DoesNotExist:
+            return JsonResponse({'status': False, 'message': "User not logged in."}, safe=False)
 
 def upload_item(request):
 
@@ -202,7 +206,12 @@ def upload_item(request):
                                            price=request.POST.get('price'),
                                            seller=authen.user)
                 item.save()
-                return JsonResponse({'status':True,'item_id':item.pk}, safe=False)
+                return JsonResponse({'status':True,
+                                     'item_id':item.pk,
+                                     'seller': item.seller.username,
+                                     'name': item.name,
+                                     'price': item.price
+                                     }, safe=False)
             else:
                 return JsonResponse({'status':False, 'message':'Cookie value does not match. Upload failed.'}, safe=False)
         #except User.DoesNotExist:
@@ -212,16 +221,23 @@ def upload_item(request):
         #except:
         #    return JsonResponse({'status': 'reupload','message':'Fields of item are incorrect. Upload failed.'}, safe=False)
 
-def delete_item(request, username, item_id):
+def delete_item(request, item_id):
 
     if request.method == 'POST':
         try:
-            user = User.objects.get(username=username)
             item = Item.objects.get(pk=item_id)
-            item.delete()
-            return JsonResponse("Item successfully deleted", safe=False)
-        except:
-            return JsonResponse("User or Item does not exist. Delete failed.", safe=False)
+            authen = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
+            if authen.user.username == item.seller.username:
+                item.delete()
+                return JsonResponse({'status': True, 'message': "Item successfully deleted."}, safe=False)
+            else:
+                return JsonResponse({'status': False, 'message':"Item is not associated with the user. Delete failed."}, safe=False)
+        except Item.DoesNotExist:
+            return JsonResponse({'status': False, 'message':"Item not found. Delete failed."}, safe=False)
+        except Authenticator.DoesNotExist:
+            return JsonResponse({'status': False, 'message': "User not logged in. Delete failed."}, safe=False)
+
+
 
 def get_all_items(request):
     if request.method == "GET":
