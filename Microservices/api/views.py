@@ -63,29 +63,34 @@ def logout(request):
             return JsonResponse({'status':False,'message':'You are already logged out.'}, safe=False)
 
 
-
-def getUpdate_user(request, username):
+def get_user(request, username):
     if request.method == 'GET':
         try:
             user = User.objects.get(username=username)
             return JsonResponse({"Password":user.password, "Username: ": user.username}, safe=False)
         except:
             return JsonResponse("User does not exist.", safe=False)
-    # Possibly change this to passing in auth?
-    elif request.method == 'POST':
+
+def update_user(request):
+
+    if request.method == 'POST':
         try:
-            user = User.objects.get(username=username)
-            valid_pwd = check_password(request.POST.get('password'), user.password)
-            if valid_pwd:
-                user.password = make_password(request.POST.get('newPassword'))
-                user.save()
-                return JsonResponse("User exists. Password updated.", safe=False)
-            else:
-                return JsonResponse("Password invalid, thus did not update user profile.", safe=False)
-        except User.DoesNotExist:
-            return JsonResponse("User does not exist.", safe=False)
+            authen = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
+            now = datetime.datetime.utcnow().replace(tzinfo=utc)
+            timediff = now - authen.time_added
+            time_out_seconds = 60 * 30
+            if timediff.total_seconds() > time_out_seconds:
+                authen.delete()
+                return JsonResponse({'status': False, 'message': 'Login timed out. Please log in again.'}, safe=False)
+            userFromAuth = authen.user
+            userFromAuth.password = make_password(request.POST.get('password'))
+            userFromAuth.save()
+            return JsonResponse({'status': True, 'message':"User exists. Password updated."}, safe=False)
+
+        except Authenticator.DoesNotExist:
+            return JsonResponse({'status':False, 'message':"User is not logged in. Update failed"}, safe=False)
         except:
-            return JsonResponse('Password update failed due to invalid new password.', safe=False)
+            return JsonResponse({'status':False, 'message':'Password update failed.'}, safe=False)
 
 def create_user(request):
     if request.method == 'POST':
@@ -110,14 +115,21 @@ def create_user(request):
         except:
             return JsonResponse({'status':False, 'message':"User already exists."}, safe=False)
 
-def delete_user(request, username):
+def delete_user(request):
     if request.method == 'POST':
         try:
-            user = User.objects.get(username=username)
-            user.delete()
-            return JsonResponse("User deleted.", safe=False)
-        except:
-            return JsonResponse("Cannot delete user because user does not exist.", safe=False)
+            authen = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
+            now = datetime.datetime.utcnow().replace(tzinfo=utc)
+            timediff = now - authen.time_added
+            time_out_seconds = 60 * 30
+            if timediff.total_seconds() > time_out_seconds:
+                authen.delete()
+                return JsonResponse({'status': False, 'message': 'Login timed out. Please log in again.'}, safe=False)
+            authen.user.delete()
+            authen.delete()
+            return JsonResponse({'status':True, 'message':"User deleted."}, safe=False)
+        except Authenticator.DoesNotExist:
+            return JsonResponse({'status':False, 'message':"Cannot delete user because user is not logged in."}, safe=False)
 
 def get_all_users(request):
     if request.method == "GET":
@@ -175,6 +187,12 @@ def update_item(request, item_id):
         try:
             item = Item.objects.get(pk=item_id)
             authen = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
+            now = datetime.datetime.utcnow().replace(tzinfo=utc)
+            timediff = now - authen.time_added
+            time_out_seconds = 60 * 30
+            if timediff.total_seconds() > time_out_seconds:
+                authen.delete()
+                return JsonResponse({'status': False, 'message': 'Login timed out. Please log in again.'}, safe=False)
             if (item.seller.username == authen.user.username):
                 item.price = request.POST.get('price')
                 item.name = request.POST.get('name')
@@ -227,6 +245,12 @@ def delete_item(request, item_id):
         try:
             item = Item.objects.get(pk=item_id)
             authen = Authenticator.objects.get(auth_num=request.POST.get('Auth_num'))
+            now = datetime.datetime.utcnow().replace(tzinfo=utc)
+            timediff = now - authen.time_added
+            time_out_seconds = 60 * 30
+            if timediff.total_seconds() > time_out_seconds:
+                authen.delete()
+                return JsonResponse({'status': False, 'message': 'Login timed out. Please log in again.'}, safe=False)
             if authen.user.username == item.seller.username:
                 item.delete()
                 return JsonResponse({'status': True, 'message': "Item successfully deleted."}, safe=False)
