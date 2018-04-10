@@ -64,6 +64,36 @@ def create_new_item(request):
        producer.send('new-listings-topic', json.dumps(resp_json).encode('utf-8'))
     return JsonResponse(resp_json, safe=False)
 
+def update_item(request, pk):
+    data_dict = request.POST
+    item_id = str(pk)
+    url = 'http://models-api:8000/api/v1/items/updateItem/' + item_id
+    resp = requests.post(url, data_dict)
+    resp_json = resp.json()
+    return JsonResponse(resp_json, safe=False)
+
+def delete_item(request, pk):
+    data_dict = request.POST
+    item_id = str(pk)
+    url = 'http://models-api:8000/api/v1/items/deleteItem/' + item_id
+    resp = requests.post(url, data_dict)
+    resp_json = resp.json()
+    return JsonResponse(resp_json, safe=False)
+
+def update_user(request):
+    data_dict = request.POST
+    url = 'http://models-api:8000/api/v1/users/update'
+    resp = requests.post(url, data_dict)
+    resp_json = resp.json()
+    return JsonResponse(resp_json, safe=False)
+
+def delete_user(request):
+    data_dict = request.POST
+    url = 'http://models-api:8000/api/v1/users/delete'
+    resp = requests.post(url, data_dict)
+    resp_json = resp.json()
+    return JsonResponse(resp_json, safe=False)
+
 # search
 
 def search_items(request, query):
