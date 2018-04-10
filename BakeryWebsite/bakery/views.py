@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import requests
 
-from .forms import LogInForm, CreateNewItemForm, SearchForm
+from .forms import LogInForm, CreateNewItemForm, SearchForm, UpdatePasswordForm
 from django.contrib import messages
 from django.contrib.messages import get_messages
 #import exp_srvc_errors
@@ -30,7 +30,7 @@ def updateItem(request, pk):
         # Return to form page
         ###next = request.GET.get('next') or reverse('home')
         form = CreateNewItemForm()
-        return render(request, 'bakery/updateItem.html', {'form': form})
+        return render(request, 'bakery/updateItem.html', {'pk': pk, 'form': form})
 
     # Otherwise, create a new form instance with our POST data
     form = CreateNewItemForm(request.POST)
@@ -43,15 +43,18 @@ def updateItem(request, pk):
     name = form.cleaned_data['name']
     price = form.cleaned_data['price']
     d = {'Auth_num': auth, 'name': name, 'price': price}
-    x = requests.post('http://exp-api:8000/services/users/updateItem/' + str(pk) + '/', d)
+    x = requests.post('http://exp-api:8000/services/items/updateItem/' + str(pk), d)
     resp_json = x.json()
     #return HttpResponse(resp_json)
     # Check if the experience layer said they gave us incorrect information
     if not resp_json or resp_json['status'] == False:
         #messages.add_message(request, messages.INFO, resp_json['message'])
         #return HttpResponseRedirect(reverse("login") + "?next=" + reverse("createNewItem"))
-        form = LogInForm()
-        return render(request, 'bakery/login.html', {'error': resp_json['message'], 'form': form})
+        #form = LogInForm()
+        req2 = urllib.request.Request('http://exp-api:8000/services/bakeryItem/' + str(pk) + '/')
+        resp_json2 = urllib.request.urlopen(req2).read().decode('utf-8')
+        resp2 = json.loads(resp_json2)
+        return render(request, 'bakery/bakeryItem_detail.html', {'error': resp_json['message'], 'bakeryItem': resp2})
 
     elif resp_json['status'] == 'reupload':
         form = CreateNewItemForm()
@@ -71,19 +74,67 @@ def deleteItem(request, pk):
         # Handle user not logged in while trying to create a listing
         return HttpResponseRedirect(reverse("login") + "?next=" + reverse("deleteItem"))
     d = {'Auth_num': auth}
-    x = requests.post('http://exp-api:8000/services/users/deleteItem/' + str(pk) + '/', d)
+    x = requests.post('http://exp-api:8000/services/items/deleteItem/' + str(pk), d)
     resp_json = x.json()
     if not resp_json or resp_json['status'] == False:
         # Couldn't log them in, send them back to login page with error
+        #form = LogInForm()
+        req2 = urllib.request.Request('http://exp-api:8000/services/bakeryItem/' + str(pk) + '/')
+        resp_json2 = urllib.request.urlopen(req2).read().decode('utf-8')
+        resp2 = json.loads(resp_json2)
+        return render(request, 'bakery/bakeryItem_detail.html', {'error': resp_json['message'], 'bakeryItem': resp2})
+    return render(request, 'bakery/deleteItem.html')
+
+def updateUser(request):
+
+    # Try to get the authenticator cookie
+    auth = request.COOKIES.get('auth')
+    #return HttpResponse(auth)
+
+    # If the authenticator cookie wasn't set...
+    if not auth:
+      # Handle user not logged in while trying to create a listing
+        return HttpResponseRedirect(reverse("login") + "?next=" + reverse("updateUser"))
+
+    # If we received a GET request instead of a POST request...
+    if request.method == 'GET':
+        # Return to form page
+        ###next = request.GET.get('next') or reverse('home')
+        form = UpdatePasswordForm()
+        return render(request, 'bakery/updateUser.html', {'form': form})
+
+    # Otherwise, create a new form instance with our POST data
+    form = UpdatePasswordForm(request.POST)
+    if not form.is_valid():
+      # Form was bad -- send them back to login page and show them an error
+      return render(request, 'bakery/updateUser.html', {'form': form})
+    # ...
+
+    # Send validated information to our experience layer
+    password = form.cleaned_data['password']
+    d = {'Auth_num': auth, 'password': password}
+    x = requests.post('http://exp-api:8000/services/users/update', d)
+    resp_json = x.json()
+    #return HttpResponse(resp_json)
+    # Check if the experience layer said they gave us incorrect information
+    if not resp_json or resp_json['status'] == False:
+        #messages.add_message(request, messages.INFO, resp_json['message'])
+        #return HttpResponseRedirect(reverse("login") + "?next=" + reverse("createNewItem"))
         form = LogInForm()
         return render(request, 'bakery/login.html', {'error': resp_json['message'], 'form': form})
-    return render(request, 'bakery/deleteItem.html')
+    elif resp_json['status'] == 'reupload':
+        form = UpdatePasswordForm()
+        return render(request, 'bakery/updateUser.html', {'error': resp_json['message'], 'form': form})
+
+    # ...
+
+    return render(request, 'bakery/passwordChanged.html')
 
 
 def deleteUser(request):
     auth = request.COOKIES.get('auth')
     d = {'Auth_num': auth}
-    x = requests.post('http://exp-api:8000/services/users/deleteUser', d)
+    x = requests.post('http://exp-api:8000/services/users/delete', d)
     resp_json = x.json()
     # return HttpResponse(resp)
     if not resp_json or resp_json['status'] == False:

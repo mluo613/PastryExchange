@@ -23,3 +23,6 @@ class CreateNewItemForm(forms.Form):
 
 class SearchForm(forms.Form):
     searchStr = forms.CharField(label='Search', max_length=100)
+
+class UpdatePasswordForm(forms.Form):
+    password = forms.CharField(label='Password', max_length=100)

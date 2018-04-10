@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^createNewItem$', views.createNewItem, name='createNewItem'),
     url(r'^search$', views.search, name='search'),
     url(r'^deleteUser$', views.deleteUser, name='deleteUser'),
-    url(r'^bakeryItem/update/(?P<pk>\d+)$', views.updateItem, name='updateItem'),
-    url(r'^bakeryItem/delete/(?P<pk>\d+)$', views.deleteItem, name='deleteItem'),
+    url(r'^updateUser$', views.updateUser, name='updateUser'),
+    url(r'^updateItem/(?P<pk>\d+)$', views.updateItem, name='updateItem'),
+    url(r'^deleteItem/(?P<pk>\d+)$', views.deleteItem, name='deleteItem'),
 ]
