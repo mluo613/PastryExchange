@@ -6,8 +6,8 @@ import time
 time.sleep(20)
 
 while True:
-    es = Elasticsearch(['es'])
     consumer = KafkaConsumer('new-listings-topic', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])
+    es = Elasticsearch(['es'])
     for message in consumer:
         new_listing = json.loads((message.value).decode('utf-8'))
         es.index(index='listing_index', doc_type='listing', id=new_listing['item_id'], body=new_listing)
