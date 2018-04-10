@@ -197,7 +197,7 @@ def update_item(request, item_id):
                 item.price = request.POST.get('price')
                 item.name = request.POST.get('name')
                 item.save()
-                return JsonResponse({'status': True, 'message':"Item's name and price are updated."}, safe=False)
+                return JsonResponse({'status': True, 'message':"Item's name and price are updated.", 'item_id': item_id}, safe=False)
             else:
                 return JsonResponse({'status': False, 'message':"Item is not associated with user. Update failed."}, safe=False)
 
