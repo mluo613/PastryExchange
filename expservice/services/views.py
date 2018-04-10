@@ -96,7 +96,7 @@ def delete_user(request):
 
 # search
 
-def search_items(request, query):
+def search_items(request, query):    
     try:
         es = Elasticsearch(['es'])
         term = str(query)

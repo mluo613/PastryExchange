@@ -12,3 +12,4 @@ while True:
         new_listing = json.loads((message.value).decode('utf-8'))
         es.index(index='listing_index', doc_type='listing', id=new_listing['item_id'], body=new_listing)
         es.indices.refresh(index='listing_index')
+        
