@@ -42,25 +42,27 @@ class UpdateUserAccountTest(TestCase):
 
     def testUpdateUserPassword(self):
         '''Test if password is updated'''
-        self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
+        response = self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
 
-        response = self.client.post('/api/v1/users/login', {'username': 'TestNewUser',
-                                                            'password': 'TestPassword'})
 
+        response = response.json()
 
-        response = self.client.post('/api/v1/users/TestNewUser', {'username': 'TestNewUser',
-                                                  'password': 'TestPassword', 'newPassword':'TestNewPassword'})
+        response = self.client.post('/api/v1/users/update', {'username': 'TestNewUser',
+                                                  'password': 'TestPassword', 'newPassword':'TestNewPassword', 'Auth_num':response['Auth_num']})
+
         self.assertContains(response, 'User exists. Password updated.')
 
     def testNonExistentUserUpdate(self):
         '''Test when trying to update nonexistent user, the update fails'''
-        self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
+        response = self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
 
-        response = self.client.post('/api/v1/users/NonExistentUser', {'username': 'NonExistentUser',
-                                                                  'password': 'TestNewPassword'})
-        self.assertContains(response, 'User does not exist.')
+        response = response.json()
+
+        response = self.client.post('/api/v1/users/update', {'username': 'NonExistentUser',
+                                                                  'password': 'TestNewPassword','Auth_num':'12345'})
+        self.assertContains(response, 'Update failed')
 
     def tearDown(self):
         pass
@@ -73,9 +75,12 @@ class DeleteUserAccountTest(TestCase):
 
     def testDeleteUserAccount(self):
         '''Tests that user is successfully deleted from database'''
-        self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
+        response = self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
-        response = self.client.post('/api/v1/users/TestNewUser/delete')
+
+        response = response.json()
+
+        response = self.client.post('/api/v1/users/delete', {'username':'TestNewUser', 'Auth_num': response['Auth_num']})
         self.assertContains(response, 'User deleted')
         #print(response)
         response2 = self.client.get('/api/v1/users/TestNewUser')
@@ -84,8 +89,8 @@ class DeleteUserAccountTest(TestCase):
 
     def testDeleteNonexistentUser(self):
         '''Tests that unexistent user deletion returns error message'''
-        response = self.client.post('/api/v1/users/Sam/delete')
-        self.assertContains(response, 'Cannot delete user because user does not exist.')
+        response = self.client.post('/api/v1/users/delete', {'username': 'Sam', 'Auth_num': '123456'})
+        self.assertContains(response, 'Cannot delete user')
 
     def tearDown(self):
         pass
@@ -138,17 +143,20 @@ class UpdateItemTestCase(TestCase):
         id = id.json()
 
 
-        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/' + str(id['item_id']), {'name': 'cake',
-                                                                'price': '3.42'})
+        response = self.client.post('/api/v1/items/updateItem/' + str(id['item_id']), {'name': 'cake',
+                                                                'price': '3.42', 'Auth_num':response['Auth_num']})
 
-        self.assertContains(response, 'Item price updated')
+        self.assertContains(response, "Item's name and price are updated")
 
     def testFailedUpdateItem(self):
         '''Tests that update price fails when item does not exist'''
-        self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
+        response = self.client.post('/api/v1/users/create', {'username': 'TestNewUser',
                                                   'password': 'TestPassword'})
-        response = self.client.post('/api/v1/users/TestNewUser/items/updateItem/2', {'name': 'cake',
-                                                                       'price': '3.42'})
+
+        response = response.json()
+
+        response = self.client.post('/api/v1/items/updateItem/2', {'name': 'cake',
+                                                                       'price': '3.42','Auth_num': response['Auth_num']})
 
         self.assertContains(response, 'Item not found')
 
