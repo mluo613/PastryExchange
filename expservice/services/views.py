@@ -96,11 +96,8 @@ def delete_user(request):
 
 # search
 
-def search_items(request, query):    
-    try:
-        es = Elasticsearch(['es'])
-        term = str(query)
-        results = es.search(index='listing_index', body={'query': {'query_string': {'query': term}}, 'size':10})
-        return JsonResponse(results, safe=False)
-    except:
-        return JsonResponse("Something went wrong!", safe=False)
+def search_items(request, query):
+    es = Elasticsearch(['es'])        
+    term = str(query)
+    results = es.search(index='listing_index', body={'query': {'query_string': {'query': term}}, 'size':10})
+    return JsonResponse(results, safe=False)
