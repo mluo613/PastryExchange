@@ -20,12 +20,22 @@ exp:
       - ./expservice:/app
    command: bash -c "pip install requests; /app/manage.py makemigrations api; python /app/manage.py makemigrations; python /app/manage.py migrate; mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/expservice/wsgi.py"
 
-web:
+web1:
    image: tp33/django
    links:
       - exp:exp-api
    ports:
       - "8000:8000"
+   volumes:
+      - ./BakeryWebsite:/app
+   command: bash -c "pip install requests; /app/manage.py makemigrations api; python /app/manage.py makemigrations; python /app/manage.py migrate; mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/BakeryWebsite/wsgi.py"
+
+web2:
+   image: tp33/django
+   links:
+      - exp:exp-api
+   ports:
+      - "8004:8000"
    volumes:
       - ./BakeryWebsite:/app
    command: bash -c "pip install requests; /app/manage.py makemigrations api; python /app/manage.py makemigrations; python /app/manage.py migrate; mod_wsgi-express start-server --working-directory /app --reload-on-changes /app/BakeryWebsite/wsgi.py"
@@ -55,3 +65,15 @@ batch:
    volumes:
       - ./batch:/batch
    command: python /batch/searchindexer.py &
+
+haproxy:
+  image: haproxy:1.7
+  container_name: haproxy
+  links:
+    - web1
+    - web2
+  volumes:
+    - .:/app
+    - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+  ports:
+    - "8005:8000"
