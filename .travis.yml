@@ -1,0 +1,25 @@
+language: python
+
+services:
+  - docker
+
+install:
+  - sudo pip install docker-compose
+
+script:
+  - docker pull mysql:5.7.14
+  - docker pull haproxy:1.7
+  - mkdir -p ~/cs4501/app
+  - mkdir -p ~/cs4501/db
+  - docker run --name mysql -d -e MYSQL\_ROOT\_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.14
+  - docker ps -a
+  - docker build haproxy:1.7
+  - docker-compose up -d
+  - docker ps -a
+  - sleep 100
+  - docker exec models bash -c "python manage.py test"
+  - docker ps -a
+#  - pip install selenium
+#  - WEB_APP_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' haproxy)
+#  - SELENIUM_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' selenium)
+#  - python unitTestSel.py ${SELENIUM_IP} ${WEB_APP_IP}
