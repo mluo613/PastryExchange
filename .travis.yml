@@ -13,11 +13,12 @@ script:
   - mkdir -p ~/cs4501/db
   - docker run --name mysql -d -e MYSQL\_ROOT\_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.14
   - docker ps -a
-  - docker build haproxy:1.7
+  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.14 bash -c "mysql -uroot -p'$3cureUS' -h db; create user 'www'@'%' identified by '$3cureUS'; create database cs4501 character set utf8; grant all on cs4501.* to 'www'@'%'; grant all on test_cs4501.* to 'www'@'%'; ^D; ^C;"
+#  - docker build haproxy:1.7
   - docker-compose up -d
   - docker ps -a
   - sleep 100
-  - docker exec models bash -c "python manage.py test"
+  - docker exec pastryexchange_models_1 bash -c "python manage.py test"
   - docker ps -a
 #  - pip install selenium
 #  - WEB_APP_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' haproxy)
