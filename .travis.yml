@@ -17,9 +17,17 @@ script:
   - docker ps -a
 #  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.14 bash -c "mysql -uroot -p'$3cureUS' -h db; create user 'www'@'%' identified by '$3cureUS'; create database cs4501 character set utf8; grant all on cs4501.* to 'www'@'%'; grant all on test_cs4501.* to 'www'@'%'; ^D; ^C;"
 #  - docker build haproxy:1.7
+  - >
+    docker run -it --name mysql-cmd --rm --link mysql:db mysql:5.7.14
+    mysql -uroot -p'$3cureUS' -h db -v -e
+    "CREATE DATABASE cs4501 CHARACTER SET utf8;
+    CREATE DATABASE test_cs4501 CHARACTER SET utf8;
+    CREATE USER 'www'@'%' IDENTIFIED BY '\$3cureUS';
+    GRANT ALL PRIVILEGES ON *.* TO 'www'@'%';"
+
   - docker-compose up -d
   - docker ps -a
-  - sleep 100
+  - sleep 30
   - docker exec pastryexchange_models_1 bash -c "python manage.py test"
   - docker ps -a
 #  - pip install selenium
