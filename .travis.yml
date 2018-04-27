@@ -30,7 +30,7 @@ script:
   - docker-compose up -d
   - docker ps -a
   - sleep 30
-  - docker exec pastryexchange_models_1 bash -c "python manage.py test" --noinput
+  - docker exec pastryexchange_models_1 python manage.py test --noinput
   - docker ps -a
 #  - pip install selenium
 #  - WEB_APP_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' haproxy)
