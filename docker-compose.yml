@@ -94,4 +94,4 @@ selenium-test:
     - web1:web
   volumes:
     - .:/app
-  command: bash -c "pip install selenium==3.11.0 && python selenium_tests.py"
+  command: bash -c "pip install selenium==3.11.0 && sleep 5 && python selenium_tests.py"
