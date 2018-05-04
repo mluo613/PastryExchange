@@ -29,6 +29,12 @@ def itemDetails(request, pk):
         req = urllib.request.Request(url)
         resp_json = urllib.request.urlopen(req).read().decode('utf-8')
         r2 = json.JSONDecoder().decode(resp_json)
+
+        # need to set a cookie that stores username when logged in. In this method, call a method(not written yet) that checks for cookie exist, if so publish to kafka
+        producer = KafkaProducer(bootstrap_servers='kafka:9092')
+        if r2['status'] == True:
+            producer.send('item-detail-topic', json.dumps(r2).encode('utf-8'))
+
         return JsonResponse(r2, safe=False)
     except:
         return JsonResponse("Something went wrong!", safe=False)
