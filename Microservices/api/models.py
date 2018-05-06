@@ -51,6 +51,15 @@ class Authenticator(models.Model):
         return dict(auth_num=self.auth_num,
                     user=self.user.username,
         )
+
+class Recommendations(models.Model):
+    item_id_num = models.CharField(max_length=200)
+    recommended_items = models.CharField(max_length=1000)
+    def __str__(self):
+        return '%s %s' % (self.item_id_num, self.recommended_items)
+
+    def as_json(self):
+        return dict(item_id=self.item_id_num, recommended_items=self.recommended_items)
 '''
 FOR FUTURE IMPLEMENTATION
 class Review(models.Model):

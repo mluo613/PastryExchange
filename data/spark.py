@@ -1,4 +1,5 @@
 from pyspark import SparkContext
+import pymysql
 
 # define function combos:
 def combos(somelist):
@@ -7,13 +8,14 @@ def combos(somelist):
     for item1 in somelist[1]:
         for item2 in somelist[1]:
             if (item1 != item2) and (item2>item1):
-                pairs.append(((user_id), (item1, item2)))
+                combos.append(((user_id), (item1, item2)))
     return combos
 
 sc = SparkContext("spark://spark-master:7077", "PopularItems")
 
 # 1. Read data in as pairs of (user_id, item_id clicked on by the user)
 data = sc.textFile("/tmp/data/access.log", 2)     # each worker loads a piece of the data file
+#data = sc.textFile("/tmp/data/example_data.txt", 2)
 initial_pairs = data.map(lambda line: line.split("\t"))   # tell each worker to split each line of it's partition
 
 # 2. Group data into (user_id, list of item ids they clicked on)
@@ -33,18 +35,22 @@ filter_total = total_count.filter(lambda x: x[1] >= 3)
 
 output = filter_total.collect()                          # bring the data back to the master node so we can print it out
 
-# output file??
-db = MySQLdb.connect("db", "www", "$3cureUS", "cs4501")
+#db = MySQLdb.connect("db", "www", "$3cureUS", "cs4501")
+db = pymysql.connect(host='localhost', user='www', password='$3cureUS', db='db', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
 cursor = db.cursor()
 sql2 = "Truncate table reccomendations"
 
 cursor.execute(sql2)
 db.commit()
 
-for pair, count in output:
-    cursor.execute("""INSERT INTO recommendations (item_id, recommended_items) VALUES (%s, %s) ON DUPLICATE KEY UPDATE """, (str(count), page_id[0], page_id[1]))
-    print ("pair %s count %d" % (pair, count))
-print ("Pair frequency counted.")
+for page_id, count in output:
+    command = "INSERT INTO Microservices_recommendations (item_id_num, recommended_items) VALUES (%s, %s) ON DUPLICATE KEY UPDATE recommended_items= CONCAT(recommended_items, ",", %s) ; "
+    cursor.execute(command, (page_id[0], page_id[1], page_id[2]) )
+    cursor.execute(command, (page_id[1], page_id[0], page_id[0]) )
+    db.commit()
+    print ("page_id %s count %d" % (page_id, count))
+print ("Popular items done.")
 
+db.close()
 sc.stop()
 
