@@ -11,6 +11,17 @@
 
   <base href="/bakery/" />
 
+  <h2>Recommended Items</h2>
+  {% if not recs %}
+      <p>No recommendations for this item.</p>
+  {% else %}
+      {% for rec in recs %}
+        <li>
+          <a href="{{ rec.get_absolute_url}} bakeryItem/{{ rec.item_id }} " >{{ rec.name }}</a> ({{rec.seller}})
+        </li>
+      {% endfor %}
+  {% endif %}
+
   <p><a href="{{ bakeryItem.0.get_absolute_url}} updateItem/{{ bakeryItem.0.item_id }} " >Update Item</a></p>
   <p><a href="{{ bakeryItem.0.get_absolute_url}} deleteItem/{{ bakeryItem.0.item_id }} " >Delete Item</a></p>
 

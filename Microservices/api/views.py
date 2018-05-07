@@ -154,21 +154,24 @@ def get_all_logged_users(request):
         #    return JsonResponse("No logged user in database.", safe=False)
 
 # These are the functions for model Item
-def get_item(request, item_id):
+def get_item(request, item_id, auth):
     if request.method == 'GET':
         try:
             item = Item.objects.get(pk=item_id)
-            result = [item.as_json()]
-            return JsonResponse(json.JSONDecoder().decode(json.dumps(result)), content_type="application/json", safe=False)
+            # result = [item.as_json()]
+            authObj = Authenticator.objects.get(auth_num=auth)
+            # result2 = json.JSONDecoder().decode(json.dumps(result))
+            # return JsonResponse(, content_type="application/json", safe=False)
             #
-            # return JsonResponse([{
-            #         "item_id":item_id,
-            #                 "name":item.name,
-            #                  "price": item.price,
-            #                  "date posted: ": item.datePosted,
-            #                  "seller": str(item.seller),
-            #                  }],
-            #                 safe=False)
+            return JsonResponse([{
+                    "item_id":item_id,
+                            "name":item.name,
+                             "price": item.price,
+                             "date posted: ": item.datePosted,
+                             "seller": str(item.seller),
+                             "username": authObj.user.username
+                             }],
+                            safe=False)
 
         except:
             return JsonResponse("Item does not exist.", safe=False)

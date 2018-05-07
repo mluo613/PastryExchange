@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^users/delete$', views.delete_user, name='delete_user'),
     url(r'^users/(?P<username>[-\w]+)$', views.get_user, name='get_user'),
 
-    url(r'^items/(?P<item_id>\d+)$', views.get_item, name='get_item'),
+    url(r'^items/(?P<item_id>\d+)/(?P<auth>[-\w]+)$', views.get_item, name='get_item'),
     url(r'^items/updateItem/(?P<item_id>\d+)$', views.update_item, name='update_item'),
     url(r'^items/deleteItem/(?P<item_id>\d+)$', views.delete_item, name='delete_item'),
 

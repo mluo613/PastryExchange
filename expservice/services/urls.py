@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^latestItems/', views.latestItems, name='latestItems'),
-    url(r'^bakeryItem/(?P<pk>\d+)/', views.itemDetails, name='itemDetails'),
+    url(r'^bakeryItem/(?P<pk>\d+)/(?P<auth>[-\w]+)/', views.itemDetails, name='itemDetails'),
     url(r'^users/create$', views.createAccount, name='createAccount'),
     url(r'^users/logout', views.logout, name='logout'),
     url(r'^users/login$', views.login, name='login'),

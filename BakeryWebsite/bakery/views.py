@@ -354,14 +354,18 @@ def createNewItem(request):
 
 def bakeryItemDetails(request, pk):
     try:
-        req = urllib.request.Request('http://exp-api:8000/services/bakeryItem/' + str(pk) + '/')
+        auth = request.COOKIES.get('auth')
+        if not auth:
+            auth = 'None'
+        req = urllib.request.Request('http://exp-api:8000/services/bakeryItem/' + str(pk) + '/' + auth + '/')
         resp_json = urllib.request.urlopen(req).read().decode('utf-8')
         resp = json.loads(resp_json)
  #   return HttpResponse(resp)
         if resp == "Something went wrong!" or resp == "Item does not exist.":
             return HttpResponse("Item does not exist.")
         context = {
-            'bakeryItem' : resp,
+            'bakeryItem' : resp[itemInfo],
+            'recs': resp[recs],
             }
         #return HttpResponse(bakeryItem) 
         return render(request, 'bakery/bakeryItem_detail.html', context)
