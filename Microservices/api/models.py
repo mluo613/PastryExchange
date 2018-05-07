@@ -53,7 +53,7 @@ class Authenticator(models.Model):
         )
 
 class Recommendations(models.Model):
-    item_id_num = models.CharField(max_length=200)
+    item_id_num = models.IntegerField(primary_key=True)
     recommended_items = models.CharField(max_length=1000)
     def __str__(self):
         return '%s %s' % (self.item_id_num, self.recommended_items)

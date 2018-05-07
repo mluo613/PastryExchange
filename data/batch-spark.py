@@ -3,7 +3,7 @@ import json
 import time
 
 
-time.sleep(20)
+time.sleep(30)
 
 while True:
 

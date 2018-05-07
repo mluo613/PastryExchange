@@ -4,7 +4,7 @@ from elasticsearch import Elasticsearch
 import json
 import time
 
-time.sleep(20)
+time.sleep(30)
 
 while True:
     consumer = KafkaConsumer('new-listings-topic', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])
