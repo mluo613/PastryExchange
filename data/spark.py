@@ -14,8 +14,8 @@ def combos(somelist):
 sc = SparkContext("spark://spark-master:7077", "PopularItems")
 
 # 1. Read data in as pairs of (user_id, item_id clicked on by the user)
-#data = sc.textFile("/tmp/data/access.log", 2)     # each worker loads a piece of the data file
-data = sc.textFile("/tmp/data/example_data.txt", 2)
+data = sc.textFile("/tmp/data/access_log.txt", 2)     # each worker loads a piece of the data file
+#data = sc.textFile("/tmp/data/example_data.txt", 2)
 initial_pairs = data.map(lambda line: line.split("\t"))   # tell each worker to split each line of it's partition
 
 # 2. Group data into (user_id, list of item ids they clicked on)
@@ -45,8 +45,8 @@ db.commit()
 
 for page_id, count in output:
     command = 'INSERT INTO api_recommendations (item_id_num, recommended_items) VALUES ("%s", "%s") ON DUPLICATE KEY UPDATE recommended_items= CONCAT(recommended_items, ",", "%s")'
-    cursor.execute(command, (str(page_id[0]), str(page_id[1]), str(page_id[1])) )
-    cursor.execute(command, (str(page_id[1]), str(page_id[0]), str(page_id[0])) )
+    cursor.execute(command, (int(page_id[0]), str(page_id[1]), str(page_id[1])) )
+    cursor.execute(command, (int(page_id[1]), str(page_id[0]), str(page_id[0])) )
     db.commit()
     print ("page_id %s count %d" % (page_id, count))
 print ("Popular items done.")
