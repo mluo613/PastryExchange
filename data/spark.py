@@ -1,5 +1,5 @@
 from pyspark import SparkContext
-import pymysql
+import MySQLdb
 
 # define function combos:
 def combos(somelist):
@@ -14,8 +14,8 @@ def combos(somelist):
 sc = SparkContext("spark://spark-master:7077", "PopularItems")
 
 # 1. Read data in as pairs of (user_id, item_id clicked on by the user)
-data = sc.textFile("/tmp/data/access.log", 2)     # each worker loads a piece of the data file
-#data = sc.textFile("/tmp/data/example_data.txt", 2)
+#data = sc.textFile("/tmp/data/access.log", 2)     # each worker loads a piece of the data file
+data = sc.textFile("/tmp/data/example_data.txt", 2)
 initial_pairs = data.map(lambda line: line.split("\t"))   # tell each worker to split each line of it's partition
 
 # 2. Group data into (user_id, list of item ids they clicked on)
@@ -36,7 +36,7 @@ filter_total = total_count.filter(lambda x: x[1] >= 3)
 output = filter_total.collect()                          # bring the data back to the master node so we can print it out
 
 #db = MySQLdb.connect("db", "www", "$3cureUS", "cs4501")
-db = pymysql.connect(host='localhost', user='www', password='$3cureUS', db='db', charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor)
+db = MySQLdb.connect(host="db", user="www", passwd="$3cureUS", db="cs4501")
 cursor = db.cursor()
 sql2 = "Truncate table reccomendations"
 
