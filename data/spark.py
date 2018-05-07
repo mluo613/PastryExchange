@@ -38,15 +38,15 @@ output = filter_total.collect()                          # bring the data back t
 #db = MySQLdb.connect("db", "www", "$3cureUS", "cs4501")
 db = MySQLdb.connect(host="db", user="www", passwd="$3cureUS", db="cs4501")
 cursor = db.cursor()
-sql2 = "Truncate table reccomendations"
+sql2 = "Truncate table api_recommendations"
 
 cursor.execute(sql2)
 db.commit()
 
 for page_id, count in output:
-    command = "INSERT INTO Microservices_recommendations (item_id_num, recommended_items) VALUES (%s, %s) ON DUPLICATE KEY UPDATE recommended_items= CONCAT(recommended_items, ",", %s) ; "
-    cursor.execute(command, (page_id[0], page_id[1], page_id[2]) )
-    cursor.execute(command, (page_id[1], page_id[0], page_id[0]) )
+    command = 'INSERT INTO api_recommendations (item_id_num, recommended_items) VALUES ("%s", "%s") ON DUPLICATE KEY UPDATE recommended_items= CONCAT(recommended_items, ",", "%s")'
+    cursor.execute(command, (str(page_id[0]), str(page_id[1]), str(page_id[1])) )
+    cursor.execute(command, (str(page_id[1]), str(page_id[0]), str(page_id[0])) )
     db.commit()
     print ("page_id %s count %d" % (page_id, count))
 print ("Popular items done.")
