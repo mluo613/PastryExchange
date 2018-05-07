@@ -159,7 +159,11 @@ def get_item(request, item_id, auth):
         try:
             item = Item.objects.get(pk=item_id)
             # result = [item.as_json()]
-            authObj = Authenticator.objects.get(auth_num=auth)
+            if auth == 'None':
+                username = 'None'
+            else:
+                authObj = Authenticator.objects.get(auth_num=auth)
+                username = authObj.user.username
             # result2 = json.JSONDecoder().decode(json.dumps(result))
             # return JsonResponse(, content_type="application/json", safe=False)
             #
@@ -169,7 +173,7 @@ def get_item(request, item_id, auth):
                              "price": item.price,
                              "date posted: ": item.datePosted,
                              "seller": str(item.seller),
-                             "username": authObj.user.username
+                             "username": username
                              }],
                             safe=False)
 
