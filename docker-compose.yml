@@ -100,10 +100,12 @@ batch-spark:
    image: tp33/django
    container_name: batch-spark
    volumes:
-    - ./data:/app
+    - ./data:/batch
    links:
       - kafka:kafka
-   command: bash -c "python batch-spark.py"
+   ports:
+      - "8007:8000"   
+   command: bash -c "python /batch/batch-spark.py"
 
 spark-master:
   image: gettyimages/spark

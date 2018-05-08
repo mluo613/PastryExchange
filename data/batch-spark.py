@@ -12,6 +12,6 @@ while True:
     for message in consumer:
         #print(json.loads((message.value).decode('utf-8')))
         recommend_listing = json.loads((message.value).decode('utf-8'))
-        entry = str(recommend_listing['username']) + '\t' + str(recommend_listing['item-id']) + '\n'
+        entry = str(recommend_listing[0]['username']) + '\t' + str(recommend_listing[0]['item-id']) + '\n'
         f = open("access_log.txt", "a+")
         f.write(entry)
