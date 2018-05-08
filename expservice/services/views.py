@@ -23,7 +23,7 @@ def latestItems(request):
     return JsonResponse(newList, safe=False)
 
 def itemDetails(request, pk, auth):
-    try:
+    #try:
         key = str(pk)
         url = 'http://models-api:8000/api/v1/items/' + key + '/' + auth
         req = urllib.request.Request(url)
@@ -32,12 +32,29 @@ def itemDetails(request, pk, auth):
 
         # need to set a cookie that stores username when logged in. In this method, call a method(not written yet) that checks for cookie exist, if so publish to kafka
         producer = KafkaProducer(bootstrap_servers='kafka:9092')
-        if r2['status'] == True:
+        if r2[0]['username']!='None':
             producer.send('item-detail-topic', json.dumps(r2).encode('utf-8'))
 
-        return JsonResponse(r2, safe=False)
-    except:
-        return JsonResponse("Something went wrong!", safe=False)
+        newList = []
+        final_json = {'itemInfo':r2, 'recs':[]}
+        if r2[0]['status']==True:
+            new_url = 'http://models-api:8000/api/v1/recs/' + r2[0]['item_id']
+            new_req = urllib.request.Request(new_url)
+            new_resp_json = urllib.request.urlopen(new_req).read().decode('utf-8')
+            recs = json.JSONDecoder().decode(new_resp_json)
+            recslist = recs.split(",")
+            for i in range(len(recslist)):
+                try:
+                    recslist[i] = int(recslist[i])
+                except:
+                    recslist[i]=0
+            newList = recslist[-5:]
+
+        final_json['recs'].append(newList)
+
+        return JsonResponse(final_json, safe=False)
+    #except:
+    #    return JsonResponse("Something went wrong!", safe=False)
 
 def createAccount(request):
     data_dict = request.POST

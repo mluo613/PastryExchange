@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^getallitems$', views.get_all_items, name='get_all_items'),
     url(r'^getallusers$', views.get_all_users, name='get_all_users'),
     url(r'^getallloggedusers$', views.get_all_logged_users, name='get_all_logged_users'),
+    url(r'^recs/(?P<item_id>\d+)$', views.get_recommendations, name='get_recommendations'),
 
     url(r'^$', views.index, name='index'),
 ]
