@@ -34,6 +34,7 @@ total_count = pair_to_users.map(lambda x: ((x[0]), len(x[1])) )
 filter_total = total_count.filter(lambda x: x[1] >= 3)
 
 output = filter_total.collect()                          # bring the data back to the master node so we can print it out
+f = open("output_log.txt", "a+")
 
 #db = MySQLdb.connect("db", "www", "$3cureUS", "cs4501")
 db = MySQLdb.connect(host="db", user="www", passwd="$3cureUS", db="cs4501")
@@ -48,9 +49,13 @@ for page_id, count in output:
     cursor.execute(command, (int(page_id[0]), str(page_id[1]), str(page_id[1])) )
     cursor.execute(command, (int(page_id[1]), str(page_id[0]), str(page_id[0])) )
     db.commit()
+    message = str(page_id) + '\t' + str(count) + '\n'
+    f.write(message)
     print ("page_id %s count %d" % (page_id, count))
+f.write("Popular items done.")
 print ("Popular items done.")
 
+f.close()
 db.close()
 sc.stop()
 
