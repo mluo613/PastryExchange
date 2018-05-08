@@ -353,24 +353,26 @@ def createNewItem(request):
     return bakeryItemDetails(request, resp_json['item_id'])
 
 def bakeryItemDetails(request, pk):
-    try:
-        auth = request.COOKIES.get('auth')
-        if not auth:
-            auth = 'None'
-        req = urllib.request.Request('http://exp-api:8000/services/bakeryItem/' + str(pk) + '/' + auth + '/')
-        resp_json = urllib.request.urlopen(req).read().decode('utf-8')
-        resp = json.loads(resp_json)
- #   return HttpResponse(resp)
-        if resp == "Something went wrong!" or resp == "Item does not exist.":
-            return HttpResponse("Item does not exist.")
-        context = {
-            'bakeryItem' : resp[itemInfo],
-            'recs': resp[recs],
-            }
-        #return HttpResponse(bakeryItem) 
-        return render(request, 'bakery/bakeryItem_detail.html', context)
-    except:
-        return HttpResponse("Page does not exist.")
+    #try:
+    authN = request.COOKIES.get('auth')
+    if not authN:
+        authN = 'None'
+    req = urllib.request.Request('http://exp-api:8000/services/bakeryItem/' + str(pk) + '/' + str(authN) + '/')
+    resp_json = urllib.request.urlopen(req).read().decode('utf-8')
+    resp = json.loads(resp_json)
+    if resp == "Something went wrong!" or resp == "Item does not exist.":
+        return HttpResponse("Item does not exist.")
+    recs = resp['recs']
+    if recs == [[0]]:
+        recs = None
+    context = {
+        'bakeryItem' : resp['itemInfo'],
+        'recs': recs,
+        }
+    #return HttpResponse(bakeryItem)
+    return render(request, 'bakery/bakeryItem_detail.html', context)
+    #except:
+        #return HttpResponse("Page does not exist.")
 
 def index(request):
     try:

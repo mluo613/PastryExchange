@@ -15,9 +15,9 @@
   {% if not recs %}
       <p>No recommendations for this item.</p>
   {% else %}
-      {% for rec in recs %}
+      {% for rec in recs.0 %}
         <li>
-          <a href="{{ rec.get_absolute_url}} bakeryItem/{{ rec.item_id }} " >{{ rec.name }}</a> ({{rec.seller}})
+          <a href="{{ rec.0.get_absolute_url}} bakeryItem/{{ rec.0.item_id }} " >{{ rec.0.name }}</a> ({{rec.0.seller}})
         </li>
       {% endfor %}
   {% endif %}

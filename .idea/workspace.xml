@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="58c39b6f-3a0e-487a-b770-cf7513f06087" name="Default" comment="" />
+    <list default="true" id="58c39b6f-3a0e-487a-b770-cf7513f06087" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/bakeryItem_detail.html" afterPath="$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/bakeryItem_detail.html" />
+      <change beforePath="$PROJECT_DIR$/BakeryWebsite/bakery/views.py" afterPath="$PROJECT_DIR$/BakeryWebsite/bakery/views.py" />
+      <change beforePath="$PROJECT_DIR$/Microservices/api/models.py" afterPath="$PROJECT_DIR$/Microservices/api/models.py" />
+      <change beforePath="$PROJECT_DIR$/Microservices/api/views.py" afterPath="$PROJECT_DIR$/Microservices/api/views.py" />
+      <change beforePath="$PROJECT_DIR$/data/access_log.txt" afterPath="$PROJECT_DIR$/data/access_log.txt" />
+      <change beforePath="$PROJECT_DIR$/data/batch-spark.py" afterPath="$PROJECT_DIR$/data/batch-spark.py" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" afterPath="$PROJECT_DIR$/docker-compose.yml" />
+      <change beforePath="$PROJECT_DIR$/expservice/services/views.py" afterPath="$PROJECT_DIR$/expservice/services/views.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,33 +21,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BakeryWebsite/bakery/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="359" column="103" lean-forward="false" selection-start-line="359" selection-start-column="103" selection-end-line="359" selection-end-column="103" />
+            <state relative-caret-position="179">
+              <caret line="354" column="35" lean-forward="true" selection-start-line="354" selection-start-column="35" selection-end-line="354" selection-end-column="35" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Microservices/api/views.py">
+      <file leaf-file-name="docker-compose.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docker-compose.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="164" column="66" lean-forward="true" selection-start-line="164" selection-start-column="66" selection-end-line="164" selection-end-column="66" />
+            <state relative-caret-position="46">
+              <caret line="94" column="11" lean-forward="true" selection-start-line="94" selection-start-column="11" selection-end-line="94" selection-end-column="11" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Microservices/api/models.py">
+      <file leaf-file-name="batch-spark.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/batch-spark.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="240">
+              <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#0#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -47,7 +57,7 @@
         <entry file="file://$PROJECT_DIR$/Microservices/api/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="14" column="50" lean-forward="false" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="50" />
+              <caret line="14" column="45" lean-forward="false" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -55,12 +65,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/expservice/services/urls.py">
+      <file leaf-file-name="bakeryItem_detail.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/bakeryItem_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="6" column="42" lean-forward="false" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
+            <state relative-caret-position="285">
+              <caret line="19" column="110" lean-forward="false" selection-start-line="19" selection-start-column="110" selection-end-line="19" selection-end-column="110" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="access_log.txt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/data/access_log.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Microservices/api/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="508">
+              <caret line="301" column="77" lean-forward="false" selection-start-line="301" selection-start-column="77" selection-end-line="301" selection-end-column="77" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -68,9 +100,21 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/expservice/services/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1110">
-              <caret line="85" column="27" lean-forward="true" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
+            <state relative-caret-position="439">
+              <caret line="52" column="23" lean-forward="true" selection-start-line="52" selection-start-column="23" selection-end-line="52" selection-end-column="23" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Microservices/api/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="61" column="49" lean-forward="false" selection-start-line="61" selection-start-column="49" selection-end-line="61" selection-end-column="49" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,6 +141,7 @@
       <find>redir</find>
       <find>scree</find>
       <find>detail</find>
+      <find>split</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -129,12 +174,15 @@
         <option value="$PROJECT_DIR$/selenium/selenium_tests.py" />
         <option value="$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/searchResult.html" />
         <option value="$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/signup.html" />
-        <option value="$PROJECT_DIR$/docker-compose.yml" />
         <option value="$PROJECT_DIR$/selenium_tests.py" />
-        <option value="$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/bakeryItem_detail.html" />
         <option value="$PROJECT_DIR$/Microservices/api/urls.py" />
         <option value="$PROJECT_DIR$/expservice/services/urls.py" />
         <option value="$PROJECT_DIR$/BakeryWebsite/bakery/views.py" />
+        <option value="$PROJECT_DIR$/docker-compose.yml" />
+        <option value="$PROJECT_DIR$/data/batch-spark.py" />
+        <option value="$PROJECT_DIR$/Microservices/api/models.py" />
+        <option value="$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/bakeryItem_detail.html" />
+        <option value="$PROJECT_DIR$/data/access_log.txt" />
         <option value="$PROJECT_DIR$/expservice/services/views.py" />
         <option value="$PROJECT_DIR$/Microservices/api/views.py" />
       </list>
@@ -202,6 +250,12 @@
             <path>
               <item name="PastryExchange" type="b2602c69:ProjectViewProjectNode" />
               <item name="PastryExchange" type="462c0819:PsiDirectoryNode" />
+              <item name="expservice" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PastryExchange" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PastryExchange" type="462c0819:PsiDirectoryNode" />
+              <item name="expservice" type="462c0819:PsiDirectoryNode" />
               <item name="expservice" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -322,20 +376,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Microservices/api/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1290">
-          <caret line="98" column="23" lean-forward="false" selection-start-line="98" selection-start-column="23" selection-end-line="98" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/expservice/services/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="9" column="22" lean-forward="false" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/signup.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -612,29 +652,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="83" column="8" lean-forward="false" selection-start-line="83" selection-start-column="8" selection-end-line="83" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/selenium_tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="116" column="33" lean-forward="false" selection-start-line="116" selection-start-column="33" selection-end-line="116" selection-end-column="33" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#30#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/bakeryItem_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -657,15 +681,23 @@
     <entry file="file://$PROJECT_DIR$/expservice/services/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="6" column="42" lean-forward="false" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
+          <caret line="6" column="53" lean-forward="false" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/expservice/services/views.py">
+    <entry file="file://$PROJECT_DIR$/BakeryWebsite/bakery/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1110">
-          <caret line="85" column="27" lean-forward="true" selection-start-line="85" selection-start-column="27" selection-end-line="85" selection-end-column="27" />
+        <state relative-caret-position="179">
+          <caret line="354" column="35" lean-forward="true" selection-start-line="354" selection-start-column="35" selection-end-line="354" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="94" column="11" lean-forward="true" selection-start-line="94" selection-start-column="11" selection-end-line="94" selection-end-column="11" />
           <folding />
         </state>
       </provider>
@@ -673,17 +705,43 @@
     <entry file="file://$PROJECT_DIR$/Microservices/api/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="14" column="50" lean-forward="false" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="50" />
+          <caret line="14" column="45" lean-forward="false" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/BakeryWebsite/bakery/templates/bakery/bakeryItem_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="110" lean-forward="false" selection-start-line="19" selection-start-column="110" selection-end-line="19" selection-end-column="110" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/batch-spark.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/expservice/services/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="52" column="23" lean-forward="true" selection-start-line="52" selection-start-column="23" selection-end-line="52" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Microservices/api/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="206">
+          <caret line="61" column="49" lean-forward="false" selection-start-line="61" selection-start-column="49" selection-end-line="61" selection-end-column="49" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -692,16 +750,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Microservices/api/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="164" column="66" lean-forward="true" selection-start-line="164" selection-start-column="66" selection-end-line="164" selection-end-column="66" />
-          <folding />
+        <state relative-caret-position="508">
+          <caret line="301" column="77" lean-forward="false" selection-start-line="301" selection-start-column="77" selection-end-line="301" selection-end-column="77" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BakeryWebsite/bakery/views.py">
+    <entry file="file://$PROJECT_DIR$/data/access_log.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="359" column="103" lean-forward="false" selection-start-line="359" selection-start-column="103" selection-end-line="359" selection-end-column="103" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

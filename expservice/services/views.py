@@ -42,13 +42,17 @@ def itemDetails(request, pk, auth):
             new_req = urllib.request.Request(new_url)
             new_resp_json = urllib.request.urlopen(new_req).read().decode('utf-8')
             recs = json.JSONDecoder().decode(new_resp_json)
-            recslist = recs.split(",")
-            for i in range(len(recslist)):
+            recslist = recs[0]['recommended_items'].split(",")
+            for i in recslist:
                 try:
-                    recslist[i] = int(recslist[i])
+                    num = i.strip('\'')
+                    req1 = urllib.request.Request('http://models-api:8000/api/v1/items/'+str(num)+'/None')
+                    resp1 = urllib.request.urlopen(req1).read().decode('utf-8')
+                    details = json.JSONDecoder().decode(resp1)
+                    newList.append(details)
                 except:
-                    recslist[i]=0
-            newList = recslist[-5:]
+                    newList.append(0)
+            newList = newList[-5:]
 
         final_json['recs'].append(newList)
 

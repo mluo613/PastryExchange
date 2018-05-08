@@ -59,7 +59,7 @@ class Recommendations(models.Model):
         return '%s %s' % (self.item_id_num, self.recommended_items)
 
     def as_json(self):
-        return dict(item_id=self.item_id_num, recommended_items=self.recommended_items)
+        return dict(item_id=str(self.item_id_num), recommended_items=self.recommended_items)
 '''
 FOR FUTURE IMPLEMENTATION
 class Review(models.Model):

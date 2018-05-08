@@ -77,35 +77,35 @@ haproxy:
     - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
   ports:
     - "8005:8000"
-
-selenium-chrome:
-  image: selenium/standalone-chrome
-  container_name: selenium-chrome
-  links:
-    - web1:web
-  ports:
-    - "8006:8000"
-
-selenium-test:
-  image: tp33/django
-  container_name: selenium-test
-  links:
-    - selenium-chrome:selenium-chrome
-    - web1:web
-  volumes:
-    - .:/app
-  command: bash -c "pip install selenium==3.11.0 && sleep 5 && python selenium_tests.py"
+#
+#selenium-chrome:
+#  image: selenium/standalone-chrome
+#  container_name: selenium-chrome
+#  links:
+#    - web1:web
+#  ports:
+#    - "8006:8000"
+#
+#selenium-test:
+#  image: tp33/django
+#  container_name: selenium-test
+#  links:
+#    - selenium-chrome:selenium-chrome
+#    - web1:web
+#  volumes:
+#    - .:/app
+#  command: bash -c "pip install selenium==3.11.0 && sleep 10 && python selenium_tests.py"
 
 batch-spark:
    image: tp33/django
    container_name: batch-spark
    volumes:
-    - ./data:/batch
+    - ./data:/app
    links:
       - kafka:kafka
    ports:
       - "8007:8000"   
-   command: bash -c "python /batch/batch-spark.py"
+   command: bash -c "python batch-spark.py"
 
 spark-master:
   image: gettyimages/spark

@@ -3,7 +3,8 @@ import json
 import time
 
 
-time.sleep(30)
+time.sleep(100)
+
 
 while True:
 
@@ -12,6 +13,6 @@ while True:
     for message in consumer:
         #print(json.loads((message.value).decode('utf-8')))
         recommend_listing = json.loads((message.value).decode('utf-8'))
-        entry = str(recommend_listing[0]['username']) + '\t' + str(recommend_listing[0]['item-id']) + '\n'
+        entry = str(recommend_listing[0]['username']) + '\t' + str(recommend_listing[0]['item_id']) + '\n'
         f = open("access_log.txt", "a+")
         f.write(entry)

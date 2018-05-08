@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from api.models import User, Item, Authenticator
+from api.models import User, Item, Authenticator, Recommendations
 import json
 from django.contrib.auth.hashers import check_password, make_password
 import os
@@ -163,12 +163,13 @@ def get_item(request, item_id, auth):
                 username = 'None'
             else:
                 authObj = Authenticator.objects.get(auth_num=auth)
+
                 username = authObj.user.username
             # result2 = json.JSONDecoder().decode(json.dumps(result))
             # return JsonResponse(, content_type="application/json", safe=False)
             #
             return JsonResponse([{
-                    "item_id":item_id, "status":True, 
+                    "item_id":item_id, "status":True,
                             "name":item.name,
                              "price": item.price,
                              "date posted: ": item.datePosted,
@@ -177,8 +178,18 @@ def get_item(request, item_id, auth):
                              }],
                             safe=False)
 
-        except:
-            return JsonResponse([{"status":True, "message":"Item does not exist.", "username":"None"}], safe=False)
+        except Authenticator.DoesNotExist:
+            return JsonResponse([{
+                "item_id": item_id, "status": True,
+                "name": item.name,
+                "price": item.price,
+                "date posted: ": item.datePosted,
+                "seller": str(item.seller),
+                "username": 'None'
+            }],
+                safe=False)
+        except Item.DoesNotExist:
+            return JsonResponse([{"status":False, "message":"Item does not exist.", "username":"None"}], safe=False)
 
 
 '''
@@ -283,7 +294,9 @@ def get_recommendations(request, item_id):
     if request.method == "GET":
         try:
             itemsList = Recommendations.objects.get(item_id_num=item_id)
-            results = [ob.as_json() for ob in itemsList]
-            return JsonResponse(json.JSONDecoder().decode(json.dumps(results)), content_type="application/json", safe=False)
+
+            results = [itemsList.as_json()]
+            return JsonResponse(results, safe=False)
+            #return JsonResponse(json.JSONDecoder().decode(json.dumps(results)), content_type="application/json", safe=False)
         except:
-            return JsonResponse("", safe=False)
+            return JsonResponse([{'item_id':item_id, 'recommended_items':""}], safe=False)
